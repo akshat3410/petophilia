@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Petophilia — Design tokens
+   Warm white + dusty sage + clay beige + muted coral
+   HSL values (without hsl() wrapper) so Tailwind can apply
+   <alpha-value> via the hsl(var(--token) / <alpha>) pattern.
+   ============================================================ */
+@layer base {
+  :root {
+    --bg: 40 20% 97%;         /* #FAF9F7 */
+    --bg-tint: 30 20% 93%;    /* #F3EFEA */
+    --sage: 146 27% 85%;      /* #CFE3D8 */
+    --sage-deep: 143 22% 72%; /* #A8C8B7 */
+    --clay: 20 26% 87%;       /* #E8DCD5 */
+    --clay-deep: 20 27% 77%;  /* #D4BFB3 */
+    --coral: 0 79% 75%;       /* #F28C8C */
+    --coral-deep: 0 65% 65%;  /* #E06B6B */
+    --ink: 0 0% 17%;          /* #2B2B2B */
+    --ink-soft: 30 4% 34%;    /* #5A5754 */
+    --ink-muted: 40 5% 52%;   /* #8A8680 */
+    --line: 0 0% 17%;         /* ink tinted line; 8% alpha applied inline */
+  }
+
+  /* Palette moods (Tweaks) — change the key hues */
+  [data-mood="dusk"] {
+    --bg: 30 20% 95%;
+    --sage: 115 13% 79%;
+    --clay: 22 39% 84%;
+    --coral: 12 52% 66%;
+  }
+  [data-mood="mineral"] {
+    --bg: 60 6% 95%;
+    --sage: 140 14% 86%;
+    --clay: 30 19% 85%;
+    --coral: 11 69% 73%;
+  }
+  [data-mood="honey"] {
+    --bg: 42 48% 95%;
+    --sage: 77 25% 83%;
+    --clay: 32 56% 84%;
+    --coral: 21 69% 70%;
+  }
+
+  [data-density="cozy"] {
+    --section-pad: 80px;
+  }
+  [data-density="default"] {
+    --section-pad: 100px;
+  }
+  [data-density="roomy"] {
+    --section-pad: 120px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  body {
+    background: hsl(var(--bg));
+    color: hsl(var(--ink));
+    font-family: theme("fontFamily.sans");
+    font-feature-settings: "ss01";
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: theme("fontFamily.serif");
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--coral));
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--ink) / 0.14);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ============================================================
+   Utility layer — a few handcrafted classes referenced across
+   the app. Everything else should be a Tailwind utility.
+   ============================================================ */
+@layer utilities {
+  .mono-label {
+    font-family: theme("fontFamily.mono");
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(var(--ink-muted));
+  }
+
+  /* Textured striped placeholder — where real photography lives.
+     Kept as a utility so we can spread it into any aspect ratio. */
+  .placeholder {
+    position: relative;
+    border-radius: theme("borderRadius.DEFAULT");
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0 2px, transparent 2px 14px),
+      hsl(var(--clay));
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+  .placeholder-sage {
+    background:
+      repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0 2px, transparent 2px 14px),
+      hsl(var(--sage));
+  }
+  .ph-label {
+    font-family: theme("fontFamily.mono");
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(var(--ink) / 0.55);
+    background: rgba(255, 255, 255, 0.6);
+    padding: 4px 8px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+  }
+
+  .blob {
+    position: absolute;
+    filter: blur(40px);
+    opacity: 0.7;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .lift {
+    transition:
+      transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.32s ease;
+  }
+  .lift:hover {
+    transform: translateY(-4px);
+    box-shadow: theme("boxShadow.soft-lg");
+  }
+}
