@@ -37,9 +37,9 @@ export function ProductDetail({ product, related }: Props) {
       {/* Breadcrumb */}
       <div className="mx-auto max-w-[1400px] px-8 pt-8">
         <nav className="flex items-center gap-2 text-[12px] text-ink-muted">
-          <Link href="/" className="hover:text-coral">Home</Link>
+          <Link href="/" className="hover:text-teal">Home</Link>
           <ChevronRight size={12} />
-          <Link href={`/category/${product.pet}`} className="capitalize hover:text-coral">
+          <Link href={`/category/${product.pet}`} className="capitalize hover:text-teal">
             {product.pet}
           </Link>
           <ChevronRight size={12} />
@@ -110,7 +110,7 @@ export function ProductDetail({ product, related }: Props) {
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="font-medium text-ink">Subscribe & save</p>
-                    <span className="rounded-full bg-coral/20 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-coral-deep">
+                    <span className="rounded-full bg-teal/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-teal">
                       −{Math.round(SUBSCRIBE_DISCOUNT * 100)}%
                     </span>
                   </div>
@@ -138,7 +138,7 @@ export function ProductDetail({ product, related }: Props) {
                 aria-label={saved ? "Unsave" : "Save"}
                 className="grid h-12 w-12 place-items-center rounded-full border border-ink/10 bg-white text-ink transition-all hover:-translate-y-0.5"
               >
-                <Heart size={16} fill={saved ? "currentColor" : "none"} className={saved ? "text-coral" : ""} />
+                <Heart size={16} fill={saved ? "currentColor" : "none"} className={saved ? "text-orange" : ""} />
               </button>
             </div>
 
@@ -151,7 +151,7 @@ export function ProductDetail({ product, related }: Props) {
           </div>
 
           {/* Ingredients card */}
-          <div className="mt-6 rounded-lg border border-ink/10 bg-bg-tint p-8">
+          <div className="mt-6 rounded-2xl border border-teal/15 bg-teal/5 p-8">
             <p className="mono-label">/what's inside</p>
             <h2 className="mt-2 font-serif text-[26px] italic text-ink">Ingredients</h2>
             <ul className="mt-5 space-y-2.5">
@@ -160,7 +160,7 @@ export function ProductDetail({ product, related }: Props) {
                   key={ing}
                   className="flex items-center gap-3 border-b border-ink/10 pb-2.5 text-[14px] text-ink"
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-coral" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-teal" />
                   {ing}
                 </li>
               ))}

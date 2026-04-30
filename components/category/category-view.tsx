@@ -40,10 +40,10 @@ export function CategoryView({ category, products }: Props) {
   return (
     <>
       {/* Header band */}
-      <section className="relative overflow-hidden border-b border-ink/10 bg-clay/40 px-8 py-16">
+      <section className="relative overflow-hidden border-b border-teal/15 bg-sand px-8 py-16">
         <div
           aria-hidden
-          className="blob h-[320px] w-[320px] bg-sage"
+          className="blob h-[320px] w-[320px] bg-teal/20"
           style={{ top: "-60px", right: "-60px" }}
         />
         <div className="relative mx-auto max-w-[1400px]">
@@ -59,7 +59,7 @@ export function CategoryView({ category, products }: Props) {
 
       <section className="mx-auto max-w-[1400px] px-8 py-12">
         {/* Floating filter panel */}
-        <div className="sticky top-[84px] z-30 -mx-4 mb-10 rounded-full border border-ink/10 bg-bg/90 px-4 py-3 shadow-soft-sm backdrop-blur-md">
+        <div className="sticky top-[84px] z-30 -mx-4 mb-10 rounded-full border border-teal/20 bg-white/95 px-4 py-3 shadow-soft-sm backdrop-blur-md">
           <div className="flex flex-wrap items-center gap-3">
             <span className="mono-label shrink-0">/brand</span>
             <div className="flex flex-wrap gap-2">

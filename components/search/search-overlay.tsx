@@ -63,7 +63,7 @@ export function SearchOverlay({ open, onClose }: Props) {
       role="dialog"
       aria-label="Search"
     >
-      <div className="absolute inset-0 bg-bg/95 backdrop-blur-xl" onClick={onClose} />
+      <div className="absolute inset-0 bg-white/95 backdrop-blur-xl" onClick={onClose} />
 
       <div
         className={`relative mx-auto mt-[8vh] max-w-[880px] px-8 transition-transform duration-300 ${
@@ -112,14 +112,14 @@ export function SearchOverlay({ open, onClose }: Props) {
                     className="group flex items-start justify-between gap-4 border-b border-ink/10 pb-4"
                   >
                     <div>
-                      <p className="text-[15px] leading-snug text-ink transition-colors group-hover:text-coral">
+                      <p className="text-[15px] leading-snug text-ink transition-colors group-hover:text-teal">
                         {j.title}
                       </p>
                       <p className="mt-1 font-mono text-[11px] text-ink-muted">{j.read} read</p>
                     </div>
                     <ArrowUpRight
                       size={16}
-                      className="mt-1 shrink-0 text-ink-muted transition-colors group-hover:text-coral"
+                      className="mt-1 shrink-0 text-ink-muted transition-colors group-hover:text-teal"
                     />
                   </a>
                 </li>

@@ -40,14 +40,14 @@ export function CartDrawer() {
     <>
       <div
         onClick={() => setDrawerOpen(false)}
-        className={`fixed inset-0 z-50 bg-ink/30 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${
           drawerOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
       <aside
         role="dialog"
         aria-label="Shopping cart"
-        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-[440px] flex-col bg-bg shadow-soft-lg transition-transform duration-300 ease-out ${
+        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-[440px] flex-col bg-white shadow-soft-lg transition-transform duration-300 ease-out ${
           drawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -67,20 +67,19 @@ export function CartDrawer() {
           </button>
         </div>
 
-        <div className="mx-7 rounded-lg bg-clay/60 px-5 py-4">
+        <div className="mx-7 rounded-2xl bg-teal/10 px-5 py-4">
           {remaining > 0 ? (
-            <p className="text-[13px] text-ink">
-              Add <span className="font-mono font-medium">{formatPrice(remaining)}</span> for free
-              shipping.
+            <p className="text-[13px] font-semibold text-ink">
+              Add <span className="font-bold text-teal">{formatPrice(remaining)}</span> more for free shipping 🐾
             </p>
           ) : (
-            <p className="text-[13px] text-ink">
-              <span className="font-medium">Free shipping unlocked.</span> Handled with care.
+            <p className="text-[13px] font-semibold text-teal">
+              ✅ Free shipping unlocked! Handled with care.
             </p>
           )}
-          <div className="mt-2.5 h-1 overflow-hidden rounded-full bg-white/60">
+          <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-teal/20">
             <div
-              className="h-full rounded-full bg-coral transition-all duration-500"
+              className="h-full rounded-full bg-teal transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -89,15 +88,15 @@ export function CartDrawer() {
         <div className="flex-1 overflow-y-auto px-7 py-6">
           {itemsWithProduct.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <div className="grid h-20 w-20 place-items-center rounded-full bg-clay/60">
-                <span className="mono-label">empty</span>
+              <div className="grid h-20 w-20 place-items-center rounded-full bg-teal/10">
+                <span className="text-[36px]">🛒</span>
               </div>
-              <p className="mt-5 font-serif text-[22px] italic text-ink">Nothing gathered yet.</p>
-              <p className="mt-2 max-w-[28ch] text-[14px] text-ink-muted">
-                Wander the pantry — tins, toys, and things with good texture.
+              <p className="mt-5 text-[22px] font-black text-ink">Your cart is empty!</p>
+              <p className="mt-2 max-w-[28ch] text-[14px] font-semibold text-ink-muted">
+                Browse our collection and add something your fur baby will love.
               </p>
-              <Button onClick={() => setDrawerOpen(false)} variant="ink" size="sm" className="mt-6">
-                Start browsing
+              <Button onClick={() => setDrawerOpen(false)} variant="teal" size="sm" className="mt-6">
+                Start shopping 🐾
               </Button>
             </div>
           ) : (
@@ -123,7 +122,7 @@ export function CartDrawer() {
                       <QtyStepper qty={item.qty} onChange={(q) => updateQty(item.id, q)} min={0} />
                       <button
                         onClick={() => updateQty(item.id, 0)}
-                        className="text-[12px] text-ink-muted underline-offset-4 hover:text-coral hover:underline"
+                        className="text-[12px] font-semibold text-ink-muted underline-offset-4 hover:text-[#E53935] hover:underline"
                       >
                         Remove
                       </button>
@@ -154,7 +153,7 @@ export function CartDrawer() {
                       <p className="font-mono text-[11px] text-ink-muted">
                         {formatPrice(p.price)}
                       </p>
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-coral opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-teal opacity-0 transition-opacity group-hover:opacity-100">
                         + add
                       </span>
                     </div>
@@ -166,7 +165,7 @@ export function CartDrawer() {
         </div>
 
         {itemsWithProduct.length > 0 && (
-          <div className="border-t border-ink/10 bg-bg px-7 py-6">
+          <div className="border-t border-ink/10 bg-white px-7 py-6">
             <div className="flex items-baseline justify-between">
               <p className="text-[14px] text-ink-muted">Subtotal</p>
               <p className="font-mono text-[20px] text-ink">{formatPrice(subtotal)}</p>

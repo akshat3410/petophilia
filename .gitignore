@@ -40,3 +40,5 @@ next-env.d.ts
 
 # stray build artifacts
 /codebase
+.npm-cache/
+.npm/

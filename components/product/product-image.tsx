@@ -8,54 +8,81 @@ interface Props {
 }
 
 /**
- * Textured striped placeholder used site-wide in place of real product photography.
- * Deterministic — each product always renders with the same palette, angle, and label.
+ * Pastel-stripe placeholder used site-wide in place of real photography.
+ * Each product gets a deterministic angle + tint from its id.
  */
 export function ProductImage({ product, className, large = false }: Props) {
-  // Deterministic angle from id so cards don't all look identical.
   const angleSeed = [...product.id].reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const angle = (angleSeed % 6) * 20 + 10;
 
-  const tone = product.tint; // already a hex from data.ts
-  const toneDeep = shade(tone, -0.08);
-  const toneLight = shade(tone, 0.08);
+  const tone = product.tint;
+  const toneDeep = shade(tone, -0.06);
+  const toneLight = shade(tone, 0.1);
 
   return (
     <div
       className={cn("relative h-full w-full overflow-hidden", className)}
       style={{
-        background: `repeating-linear-gradient(${angle}deg, ${tone} 0px, ${tone} 6px, ${toneDeep} 6px, ${toneDeep} 9px, ${toneLight} 9px, ${toneLight} 14px)`,
+        background: `repeating-linear-gradient(${angle}deg, ${toneLight} 0px, ${toneLight} 8px, ${tone} 8px, ${tone} 14px, ${toneDeep} 14px, ${toneDeep} 18px)`,
       }}
       aria-hidden="true"
     >
+      {/* Radial vignette */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(80% 80% at 50% 50%, rgba(0,0,0,0) 60%, rgba(43,43,43,0.14) 100%)",
+            "radial-gradient(70% 70% at 50% 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.08) 100%)",
         }}
       />
+
+      {/* Shape label — top left */}
       <div
         className={cn(
-          "absolute left-3 top-3 font-mono uppercase tracking-[0.14em] text-ink/60",
+          "absolute left-3 top-3 rounded-full bg-white/70 px-2.5 py-1 font-mono uppercase tracking-[0.12em] text-ink/60 backdrop-blur-sm",
           large ? "text-[11px]" : "text-[9px]",
         )}
       >
         /{product.shape}
       </div>
+
+      {/* Product ID watermark — bottom right */}
       <div
         className={cn(
-          "absolute bottom-3 right-3 font-mono uppercase tracking-[0.14em] text-ink/45",
+          "absolute bottom-3 right-3 font-mono uppercase tracking-[0.12em] text-ink/30",
           large ? "text-[10px]" : "text-[9px]",
         )}
       >
         {product.id.toUpperCase()}
       </div>
+
+      {/* Center emoji icon per product shape */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span
+          style={{ fontSize: large ? 72 : 52, filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))" }}
+        >
+          {shapeEmoji(product.shape)}
+        </span>
+      </div>
     </div>
   );
 }
 
-/** Tweak a hex color's lightness by pct (-1..1). Naive but good enough for placeholders. */
+function shapeEmoji(shape: string): string {
+  const map: Record<string, string> = {
+    pouch: "🥩",
+    tin: "🥫",
+    jar: "🫙",
+    bed: "🛏️",
+    toy: "🎾",
+    stick: "🦴",
+    tub: "🍦",
+    tray: "🍱",
+    default: "🐾",
+  };
+  return map[shape] ?? map.default;
+}
+
 function shade(hex: string, pct: number) {
   const n = parseInt(hex.replace("#", ""), 16);
   let r = (n >> 16) & 0xff;

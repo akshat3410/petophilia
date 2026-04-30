@@ -1,31 +1,51 @@
+import Link from "next/link";
 import { ProductCard } from "@/components/product/product-card";
 import { products } from "@/lib/data";
+import { ArrowRight } from "lucide-react";
 
 export function FeaturedGrid() {
-  // Staggered offsets — every other column shifted down a little.
-  const OFFSETS = [0, 32, 0, 48];
   const featured = products.slice(0, 8);
 
   return (
-    <section className="mx-auto max-w-[1400px] px-8 py-20">
-      <div className="flex items-end justify-between">
-        <div>
-          <p className="mono-label">/this week</p>
-          <h2 className="mt-2 max-w-[14ch] font-serif text-[48px] italic leading-[1] text-ink">
-            Considered
-            <br />
-            new arrivals.
-          </h2>
+    <section className="bg-white py-16 px-6">
+      <div className="mx-auto max-w-[1400px]">
+        {/* Section header */}
+        <div className="mb-10 flex items-end justify-between">
+          <div>
+            <p className="mono-label mb-2">/ this week</p>
+            <h2 className="text-[36px] font-black text-ink leading-tight">
+              New Arrivals 🐾
+            </h2>
+            <p className="mt-2 text-[15px] text-ink-muted font-semibold">
+              Restocks, fresh picks & small-batch makers.
+            </p>
+          </div>
+          <Link
+            href="/category/dog"
+            className="hidden items-center gap-2 rounded-full border-2 border-teal px-6 py-3 text-[14px] font-black text-teal transition-all hover:bg-teal hover:text-white md:flex"
+          >
+            View all <ArrowRight size={15} strokeWidth={3} />
+          </Link>
         </div>
-        <p className="hidden max-w-[32ch] text-[14px] text-ink-muted md:block">
-          Restocks, reformulations, and the odd new maker we've fallen for.
-        </p>
-      </div>
 
-      <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
-        {featured.map((p, i) => (
-          <ProductCard key={p.id} product={p} offset={OFFSETS[i % OFFSETS.length]} />
-        ))}
+        {/* Product grid */}
+        <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-6 scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible md:pb-0">
+          {featured.map((p) => (
+            <div key={p.id} className="w-[80vw] shrink-0 snap-center sm:w-[45vw] md:w-auto">
+              <ProductCard product={p} />
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile view-all */}
+        <div className="mt-8 text-center md:hidden">
+          <Link
+            href="/category/dog"
+            className="inline-flex items-center gap-2 rounded-full border-2 border-teal px-6 py-3 text-[14px] font-black text-teal"
+          >
+            View all <ArrowRight size={15} strokeWidth={3} />
+          </Link>
+        </div>
       </div>
     </section>
   );

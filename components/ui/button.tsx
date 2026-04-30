@@ -6,24 +6,37 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2.5 rounded-full font-medium whitespace-nowrap transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2.5 rounded-full font-black whitespace-nowrap transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
+        // Primary — teal
+        default:
+          "bg-teal text-white shadow-teal hover:-translate-y-0.5 hover:bg-teal-deep hover:shadow-teal-hover",
+        // Orange CTA
         coral:
-          "bg-coral text-white shadow-coral hover:-translate-y-0.5 hover:bg-coral-deep hover:shadow-coral-hover",
-        ink: "bg-ink text-bg hover:-translate-y-0.5 hover:shadow-soft-md",
-        ghost: "bg-transparent text-ink border border-line hover:bg-white hover:border-ink",
+          "bg-orange text-white shadow-orange hover:-translate-y-0.5 hover:bg-orange-deep hover:shadow-orange-hover",
+        orange:
+          "bg-orange text-white shadow-orange hover:-translate-y-0.5 hover:bg-orange-deep hover:shadow-orange-hover",
+        teal:
+          "bg-teal text-white shadow-teal hover:-translate-y-0.5 hover:bg-teal-deep hover:shadow-teal-hover",
+        // Outlined
+        ghost:
+          "bg-transparent text-ink border-2 border-ink/20 hover:border-teal hover:text-teal",
+        outline:
+          "bg-transparent text-teal border-2 border-teal hover:bg-teal hover:text-white",
+        // Dark
+        ink: "bg-ink text-white hover:-translate-y-0.5 hover:shadow-soft-md",
         plain: "bg-transparent text-ink hover:bg-ink/5",
       },
       size: {
-        default: "px-7 py-4 text-[15px]",
+        default: "px-7 py-3.5 text-[15px]",
         sm: "px-4 py-2.5 text-sm",
-        lg: "px-8 py-5 text-base",
+        lg: "px-8 py-4 text-[16px]",
         icon: "h-10 w-10 p-0",
       },
     },
-    defaultVariants: { variant: "coral", size: "default" },
+    defaultVariants: { variant: "teal", size: "default" },
   },
 );
 

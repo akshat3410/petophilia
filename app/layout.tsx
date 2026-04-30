@@ -1,31 +1,36 @@
 import type { Metadata } from "next";
-import { Fraunces, JetBrains_Mono } from "next/font/google";
-import { GeistSans } from "geist/font/sans";
+import { Nunito, Space_Mono } from "next/font/google";
 import "./globals.css";
+import "../styles/design-system.css";
+import "../styles/hero.css";
+import "../styles/product-card.css";
 import { Providers } from "@/components/providers";
 import { Header } from "@/components/chrome/header";
 import { Footer } from "@/components/chrome/footer";
 
-const fraunces = Fraunces({
+const nunito = Nunito({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  axes: ["opsz"],
+  variable: "--font-nunito",
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
-const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
+
+const space = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-space",
+});
 
 export const metadata: Metadata = {
-  title: "Petophile — Provisions for pets we love",
+  title: "Pet-o-philia — Fun, Care & Comfort for Your Fur Babies",
   description:
-    "A curated marketplace of small, thoughtful pet brands. Fresh food, treats, and things with good texture.",
+    "Premium pet supplies — Grooming, Toys, Beds, Bowls & Accessories. Curated small brands, delivered with love.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${GeistSans.variable} ${jetbrains.variable}`}
-    >
+    <html lang="en" className={`${nunito.variable} ${space.variable} antialiased tracking-tight`}>
       <body>
+        <div className="bg-noise" />
         <Providers>
           <Header />
           <main>{children}</main>

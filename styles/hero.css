@@ -1,0 +1,76 @@
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.gradient-layer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2DBFB8 0%, #1A9B96 50%, #2DBFB8 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.paw-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+}
+
+.paw {
+  position: absolute;
+  font-size: 2rem;
+  filter: blur(1px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 600px;
+  padding: var(--space-10) var(--space-6);
+  color: var(--white);
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+  background: linear-gradient(45deg, var(--orange-primary), var(--orange-hover));
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+  transition: all var(--duration-normal) var(--ease-snappy);
+}
+
+.cta-button:hover {
+  background: linear-gradient(60deg, var(--orange-primary), var(--orange-hover));
+}
+
+.arrow {
+  display: inline-block;
+  font-size: 20px;
+  transition: transform var(--duration-fast) var(--ease-snappy);
+}
+
+.cta-button:hover .arrow {
+  transform: translateX(4px);
+}

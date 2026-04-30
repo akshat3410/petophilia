@@ -19,7 +19,7 @@ export function QtyStepper({ qty, onChange, min = 0, size = "sm", className }: Q
     <div
       className={cn(
         "inline-flex items-center rounded-full",
-        size === "sm" ? "bg-bg p-0.5" : "border border-line p-1",
+        size === "sm" ? "bg-white p-0.5" : "border border-teal/20 p-1",
         className,
       )}
     >

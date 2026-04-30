@@ -27,7 +27,7 @@ export function CheckoutView() {
   return (
     <section className="mx-auto max-w-[1200px] px-8 py-14">
       <div className="flex items-center gap-2 text-[12px] text-ink-muted">
-        <Link href="/" className="hover:text-coral">Home</Link>
+        <Link href="/" className="hover:text-teal">Home</Link>
         <ChevronRight size={12} />
         <span className="text-ink">Checkout</span>
       </div>
@@ -45,7 +45,7 @@ export function CheckoutView() {
               <li key={s} className="flex items-center gap-3">
                 <span
                   className={`grid h-6 w-6 place-items-center rounded-full ${
-                    i <= stepIdx ? "bg-ink text-bg" : "bg-ink/10 text-ink-muted"
+                    i <= stepIdx ? "bg-teal text-white" : "bg-teal/10 text-ink-muted"
                   }`}
                 >
                   {i < stepIdx ? <Check size={12} /> : i + 1}
@@ -60,7 +60,7 @@ export function CheckoutView() {
             {step === "contact" && (
               <Card title="01 · Contact">
                 <div className="grid gap-3">
-                  <Input type="email" placeholder="Email" defaultValue="june@petophile.co" />
+                  <Input type="email" placeholder="Email" defaultValue="june@pet-o-philia.co" />
                   <div className="grid grid-cols-2 gap-3">
                     <Input placeholder="First name" defaultValue="June" />
                     <Input placeholder="Last name" defaultValue="Okafor" />
@@ -133,7 +133,7 @@ export function CheckoutView() {
         </div>
 
         {/* Summary */}
-        <aside className="h-fit rounded-lg bg-clay/40 p-8 lg:sticky lg:top-24">
+        <aside className="h-fit rounded-2xl bg-sand p-8 lg:sticky lg:top-24">
           <p className="mono-label">/order summary</p>
           <h2 className="mt-2 font-serif text-[28px] italic text-ink">In your basket</h2>
 
@@ -203,7 +203,7 @@ function ThankYou() {
       <h1 className="mt-6 font-serif text-[92px] italic leading-[0.95] text-ink">
         Thank you,
         <br />
-        <span className="text-coral-deep">kindly.</span>
+        <span className="text-teal">kindly.</span>
       </h1>
       <p className="mx-auto mt-6 max-w-[44ch] text-[16px] leading-[1.55] text-ink-soft">
         Your pantry is being packed. You'll get an email when it ships — usually within a day, with

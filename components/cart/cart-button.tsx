@@ -10,7 +10,7 @@ export function CartButton() {
     <button
       onClick={() => setDrawerOpen(true)}
       aria-label={`Cart (${count} items)`}
-      className="relative grid h-10 w-10 place-items-center rounded-full text-ink transition-colors hover:bg-ink/5"
+      className="relative grid h-10 w-10 place-items-center rounded-full text-ink-soft transition-colors hover:bg-teal/10 hover:text-teal"
     >
       <ShoppingBag size={18} strokeWidth={1.75} />
       <CountBadge count={count} />

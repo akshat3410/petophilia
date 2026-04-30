@@ -1,4 +1,4 @@
-# Petophile
+# Pet-o-philia
 
 A curated marketplace of small, thoughtful pet brands — the Next.js codebase.
 

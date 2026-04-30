@@ -1,31 +1,50 @@
 import { testimonials } from "@/lib/data";
+import { Star } from "lucide-react";
 
 export function Testimonials() {
   return (
-    <section className="mx-auto max-w-[1400px] px-8 py-20">
-      <div className="grid gap-10 md:grid-cols-[1fr_1.3fr]">
-        <div>
-          <p className="mono-label">/at the counter</p>
-          <h2 className="mt-2 max-w-[14ch] font-serif text-[42px] italic leading-[1] text-ink">
-            A few kind words.
+    <section className="bg-white py-16 px-6">
+      <div className="mx-auto max-w-[1400px]">
+        {/* Heading */}
+        <div className="mb-10 text-center">
+          <p className="mono-label mb-2">/ happy customers</p>
+          <h2 className="text-[36px] font-black text-ink leading-tight">
+            Tails are Wagging! 🐾
           </h2>
+          <p className="mt-2 text-[15px] text-ink-muted font-semibold">
+            Don't take our word for it — hear from our fur family.
+          </p>
         </div>
-        <div className="space-y-6">
+
+        {/* Cards */}
+        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 scrollbar-hide md:grid md:grid-cols-2 md:overflow-visible md:pb-0">
           {testimonials.map((t, i) => (
             <figure
               key={t.who}
-              className="rounded-lg border border-ink/10 bg-white px-7 py-6 shadow-soft-sm"
-              style={{ transform: `rotate(${i % 2 === 0 ? -0.6 : 0.8}deg)` }}
+              className="w-[85vw] shrink-0 snap-center rounded-2xl bg-[#E0F7FA] p-7 shadow-soft-sm md:w-auto"
             >
-              <blockquote className="font-serif text-[22px] italic leading-[1.35] text-ink">
-                “{t.quote}”
+              {/* Stars */}
+              <div className="mb-4 flex gap-1">
+                {Array.from({ length: 5 }).map((_, s) => (
+                  <Star
+                    key={s}
+                    size={16}
+                    fill="hsl(var(--orange))"
+                    stroke="none"
+                  />
+                ))}
+              </div>
+              <blockquote className="text-[18px] font-bold leading-[1.4] text-ink">
+                "{t.quote}"
               </blockquote>
-              <figcaption className="mt-4 flex items-center gap-3">
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
-                  {t.who}
-                </span>
-                <span className="h-[1px] w-8 bg-ink/20" />
-                <span className="text-[12px] text-ink-muted">{t.pet}</span>
+              <figcaption className="mt-5 flex items-center gap-3">
+                <div className="grid h-10 w-10 place-items-center rounded-full bg-teal text-[16px] text-white font-black">
+                  {t.who.charAt(0)}
+                </div>
+                <div>
+                  <p className="text-[14px] font-black text-ink">{t.who}</p>
+                  <p className="text-[12px] font-semibold text-ink-muted">{t.pet}</p>
+                </div>
               </figcaption>
             </figure>
           ))}

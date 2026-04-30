@@ -3,33 +3,38 @@ import { brands } from "@/lib/data";
 
 export function BrandRow() {
   return (
-    <section className="mx-auto max-w-[1400px] px-8 py-16">
-      <div className="rounded-lg bg-sage/60 px-10 py-14">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="mono-label">/the makers</p>
-            <h2 className="mt-2 max-w-[20ch] font-serif text-[40px] italic leading-[1] text-ink">
-              Fifteen small kitchens, studios, and mills.
-            </h2>
-          </div>
-          <Link href="/brands" className="text-[14px] font-medium text-ink underline underline-offset-4 hover:text-coral">
-            Meet them all →
-          </Link>
+    <section className="bg-sand py-16 px-6">
+      <div className="mx-auto max-w-[1400px]">
+        <div className="mb-10 text-center">
+          <p className="mono-label mb-2">/ our makers</p>
+          <h2 className="text-[36px] font-black text-ink leading-tight">
+            Small Kitchens, Big Love 🏡
+          </h2>
+          <p className="mt-2 text-[15px] text-ink-muted font-semibold">
+            Brands we've actually met — sourced with care, restocked with intent.
+          </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-5">
+        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-6 scrollbar-hide sm:grid sm:grid-cols-2 md:grid-cols-5 md:overflow-visible md:pb-0">
           {brands.map((b, i) => (
             <Link
               key={b.id}
               href={`/brand/${b.id}`}
-              className="lift flex flex-col justify-between rounded-lg bg-white/90 px-5 py-6 shadow-soft-sm"
-              style={{ minHeight: 180, transform: i % 2 === 1 ? "translateY(-14px)" : undefined }}
+              className="lift group flex w-[70vw] shrink-0 snap-center flex-col gap-4 rounded-2xl bg-white p-6 shadow-soft-sm sm:w-auto"
             >
-              <span className="mono-label">/0{i + 1}</span>
-              <div>
-                <h3 className="font-serif text-[22px] italic leading-tight text-ink">{b.name}</h3>
-                <p className="mt-1 text-[12px] text-ink-muted">{b.tag}</p>
+              {/* Numbered icon */}
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal/10 text-teal">
+                <span className="text-[13px] font-black">/0{i + 1}</span>
               </div>
+              <div>
+                <h3 className="text-[18px] font-black text-ink group-hover:text-teal transition-colors">
+                  {b.name}
+                </h3>
+                <p className="mt-1 text-[12px] font-semibold text-ink-muted">{b.tag}</p>
+              </div>
+              <span className="mt-auto text-teal font-bold text-[13px] group-hover:translate-x-1 transition-transform inline-block">
+                Explore →
+              </span>
             </Link>
           ))}
         </div>

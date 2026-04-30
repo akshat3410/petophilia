@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { MotionConfig } from "framer-motion";
 import { CartProvider } from "@/lib/cart-context";
 import { WishlistProvider } from "@/lib/wishlist-context";
 import { TweaksProvider } from "@/lib/tweaks-context";
@@ -9,14 +10,16 @@ import { TweaksPanel } from "@/components/tweaks/tweaks-panel";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <TweaksProvider>
-      <WishlistProvider>
-        <CartProvider>
-          {children}
-          <CartDrawer />
-          <TweaksPanel />
-        </CartProvider>
-      </WishlistProvider>
-    </TweaksProvider>
+    <MotionConfig reducedMotion="user">
+      <TweaksProvider>
+        <WishlistProvider>
+          <CartProvider>
+            {children}
+            <CartDrawer />
+            <TweaksPanel />
+          </CartProvider>
+        </WishlistProvider>
+      </TweaksProvider>
+    </MotionConfig>
   );
 }

@@ -3,55 +3,25 @@
 @tailwind utilities;
 
 /* ============================================================
-   Petophilia — Design tokens
-   Warm white + dusty sage + clay beige + muted coral
-   HSL values (without hsl() wrapper) so Tailwind can apply
-   <alpha-value> via the hsl(var(--token) / <alpha>) pattern.
+   Pet-o-philia — Design tokens
+   Teal primary + orange accent + sandy beige + white
    ============================================================ */
 @layer base {
   :root {
-    --bg: 40 20% 97%;         /* #FAF9F7 */
-    --bg-tint: 30 20% 93%;    /* #F3EFEA */
-    --sage: 146 27% 85%;      /* #CFE3D8 */
-    --sage-deep: 143 22% 72%; /* #A8C8B7 */
-    --clay: 20 26% 87%;       /* #E8DCD5 */
-    --clay-deep: 20 27% 77%;  /* #D4BFB3 */
-    --coral: 0 79% 75%;       /* #F28C8C */
-    --coral-deep: 0 65% 65%;  /* #E06B6B */
-    --ink: 0 0% 17%;          /* #2B2B2B */
-    --ink-soft: 30 4% 34%;    /* #5A5754 */
-    --ink-muted: 40 5% 52%;   /* #8A8680 */
-    --line: 0 0% 17%;         /* ink tinted line; 8% alpha applied inline */
-  }
-
-  /* Palette moods (Tweaks) — change the key hues */
-  [data-mood="dusk"] {
-    --bg: 30 20% 95%;
-    --sage: 115 13% 79%;
-    --clay: 22 39% 84%;
-    --coral: 12 52% 66%;
-  }
-  [data-mood="mineral"] {
-    --bg: 60 6% 95%;
-    --sage: 140 14% 86%;
-    --clay: 30 19% 85%;
-    --coral: 11 69% 73%;
-  }
-  [data-mood="honey"] {
-    --bg: 42 48% 95%;
-    --sage: 77 25% 83%;
-    --clay: 32 56% 84%;
-    --coral: 21 69% 70%;
-  }
-
-  [data-density="cozy"] {
-    --section-pad: 80px;
-  }
-  [data-density="default"] {
-    --section-pad: 100px;
-  }
-  [data-density="roomy"] {
-    --section-pad: 120px;
+    --bg: 0 0% 100%;              /* #FFFFFF */
+    --bg-tint: 38 60% 92%;        /* Sandy beige #F5E6C8 */
+    --teal: 190 72% 44%;          /* #1BBCD4 */
+    --teal-deep: 190 72% 36%;     /* Darker teal */
+    --teal-light: 190 72% 55%;    /* Lighter teal */
+    --orange: 26 90% 55%;         /* #F5832A */
+    --orange-deep: 22 90% 48%;    /* Darker orange */
+    --sand: 38 60% 92%;           /* #F5E6C8 sandy base */
+    --sand-deep: 34 50% 82%;      /* Deeper sand */
+    --ink: 220 50% 12%;           /* #0F1A2E dark navy */
+    --ink-soft: 220 25% 35%;      /* Softer navy */
+    --ink-muted: 220 15% 58%;     /* Muted nav text */
+    --line: 190 30% 88%;          /* Teal-tinted line */
+    --white: 0 0% 100%;
   }
 
   * {
@@ -66,100 +36,113 @@
     background: hsl(var(--bg));
     color: hsl(var(--ink));
     font-family: theme("fontFamily.sans");
-    font-feature-settings: "ss01";
-    line-height: 1.45;
-    letter-spacing: -0.005em;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    font-family: theme("fontFamily.serif");
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+  h1, h2, h3, h4, h5 {
+    font-family: theme("fontFamily.display");
+    font-weight: 800;
+    line-height: 1.1;
   }
 
   :focus-visible {
-    outline: 2px solid hsl(var(--coral));
+    outline: 2px solid hsl(var(--teal));
     outline-offset: 2px;
     border-radius: 8px;
   }
 
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--ink) / 0.14);
+    background: hsl(var(--teal) / 0.25);
     border-radius: 8px;
   }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  ::-webkit-scrollbar-track { background: transparent; }
 }
 
 /* ============================================================
-   Utility layer — a few handcrafted classes referenced across
-   the app. Everything else should be a Tailwind utility.
+   Utility classes
    ============================================================ */
 @layer utilities {
   .mono-label {
     font-family: theme("fontFamily.mono");
     font-size: 11px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: hsl(var(--ink-muted));
+    color: hsl(var(--teal));
   }
 
-  /* Textured striped placeholder — where real photography lives.
-     Kept as a utility so we can spread it into any aspect ratio. */
+  /* Wave / organic shape divider used at bottom of hero */
+  .wave-divider {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    line-height: 0;
+  }
+
+  /* Floating circle product showcase */
+  .product-circle {
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  /* Textured card placeholder */
   .placeholder {
     position: relative;
-    border-radius: theme("borderRadius.DEFAULT");
     overflow: hidden;
     background:
-      repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0 2px, transparent 2px 14px),
-      hsl(var(--clay));
-    display: flex;
-    align-items: flex-end;
-    padding: 16px;
-  }
-  .placeholder-sage {
-    background:
-      repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0 2px, transparent 2px 14px),
-      hsl(var(--sage));
-  }
-  .ph-label {
-    font-family: theme("fontFamily.mono");
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: hsl(var(--ink) / 0.55);
-    background: rgba(255, 255, 255, 0.6);
-    padding: 4px 8px;
-    border-radius: 4px;
-    backdrop-filter: blur(4px);
-  }
-
-  .blob {
-    position: absolute;
-    filter: blur(40px);
-    opacity: 0.7;
-    pointer-events: none;
-    border-radius: 50%;
+      repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0 2px, transparent 2px 14px),
+      hsl(var(--bg-tint));
+    border-radius: 16px;
   }
 
   .lift {
-    transition:
-      transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
-      box-shadow 0.32s ease;
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.28s ease;
   }
   .lift:hover {
     transform: translateY(-4px);
-    box-shadow: theme("boxShadow.soft-lg");
+    box-shadow: 0 16px 48px rgba(0,0,0,0.10);
+  }
+
+  /* Bone / paw decorative SVG opacity */
+  .deco-icon {
+    opacity: 0.18;
+    color: white;
+  }
+
+  /* Announcement bar text */
+  .announce-bar {
+    background: hsl(var(--teal));
+    color: white;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 8px 16px;
+  }
+
+  /* Hide scrollbar for touch snap containers */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .bg-noise {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    mix-blend-mode: overlay;
   }
 }
