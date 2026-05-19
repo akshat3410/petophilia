@@ -42,6 +42,13 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+
+  webpack: (config) => {
+    config.ignoreWarnings = [
+      { module: /node_modules\/jose/ },
+    ];
+    return config;
+  },
 };
 
 export default nextConfig;
