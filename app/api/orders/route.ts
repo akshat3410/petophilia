@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
           status: "PENDING",
           paymentStatus: "PENDING",
           items: {
-            create: cart.items.map((item) => {
+            create: cart.items.map((item: any) => {
               const price = item.product.price + (item.variant?.priceAdjustment ?? 0);
               return {
                 productId: item.product.id,
