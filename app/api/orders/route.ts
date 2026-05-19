@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
     const total = subtotal - discount + shippingFee;
 
     // Create order + snapshot items in transaction
-    const order = await db.$transaction(async (tx) => {
+    const order = await db.$transaction(async (tx: any) => {
       const newOrder = await tx.order.create({
         data: {
           userId,
