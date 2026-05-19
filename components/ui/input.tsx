@@ -11,7 +11,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     <input
       ref={ref}
       className={cn(
-        "w-full rounded-[12px] border border-line bg-white px-4 py-3.5 text-sm text-ink outline-none transition-colors duration-150 placeholder:text-ink-muted focus:border-ink",
+        "w-full rounded-[12px] border border-line bg-white px-4 py-3.5 text-sm text-primary outline-none transition-colors duration-150 placeholder:text-muted focus:border-border",
         className,
       )}
       {...props}

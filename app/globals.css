@@ -1,27 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================================
-   Pet-o-philia — Design tokens
-   Teal primary + orange accent + sandy beige + white
+   Pet-o-philia — Warm Soft Playful Premium Design Tokens
    ============================================================ */
 @layer base {
   :root {
-    --bg: 0 0% 100%;              /* #FFFFFF */
-    --bg-tint: 38 60% 92%;        /* Sandy beige #F5E6C8 */
-    --teal: 190 72% 44%;          /* #1BBCD4 */
-    --teal-deep: 190 72% 36%;     /* Darker teal */
-    --teal-light: 190 72% 55%;    /* Lighter teal */
-    --orange: 26 90% 55%;         /* #F5832A */
-    --orange-deep: 22 90% 48%;    /* Darker orange */
-    --sand: 38 60% 92%;           /* #F5E6C8 sandy base */
-    --sand-deep: 34 50% 82%;      /* Deeper sand */
-    --ink: 220 50% 12%;           /* #0F1A2E dark navy */
-    --ink-soft: 220 25% 35%;      /* Softer navy */
-    --ink-muted: 220 15% 58%;     /* Muted nav text */
-    --line: 190 30% 88%;          /* Teal-tinted line */
+    /* Font Variables */
+    --font-fraunces: 'Fraunces', serif;
+    --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+
+    /* Theme Colors in HSL for Tailwind utility mappings */
+    --bg: 37 100% 96%;            /* #FFF8EC (Cream Base) */
+    --bg-tint: 38 100% 98%;       /* #FFFCF6 (Warm Off-White) */
+    --surface: 0 0% 100%;         /* #FFFFFF (Milk White) */
+    --primary: 19 36% 18%;        /* #4A2F22 (Cocoa Brown) */
+    --primary-dark: 17 34% 16%;   /* #3A241A (Primary Text) */
+    --primary-soft: 18 33% 31%;   /* #6B4636 (Milk Chocolate) */
+    --accent: 27 52% 57%;         /* #C98B5A (Caramel) */
+    --accent-soft: 25 100% 86%;   /* #FFD9B7 (Peach Cream) */
+    --ice: 38 100% 98%;           /* #FFFCF6 */
+    --border: 31 43% 83%;         /* #EAD7C2 (Soft Border) */
+    --text: 17 34% 16%;           /* #3A241A (Primary Text) */
+    --muted: 21 21% 40%;          /* #7A6253 (Secondary Text) */
+    --offer: 345 65% 58%;         /* #D94F70 (Sale Raspberry) */
     --white: 0 0% 100%;
+
+    /* Compatibility variables mapped to warm tones */
+    --color-accent: 27 52% 57%;
+    --color-accent-deep: 19 36% 18%;
+    --color-accent-light: 35 100% 92%;
+    --color-offer: 345 65% 58%;
+    --color-offer-deep: 345 65% 58%;
+    --sand: 37 100% 96%;
+    --sand-deep: 31 43% 83%;
+    --color-primary: 19 36% 18%;
+    --color-primary-soft: 18 33% 31%;
+    --color-primary-muted: 21 21% 40%;
+    --line: 31 43% 83%;
   }
 
   * {
@@ -34,7 +53,7 @@
   }
   body {
     background: hsl(var(--bg));
-    color: hsl(var(--ink));
+    color: hsl(var(--color-primary));
     font-family: theme("fontFamily.sans");
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -47,14 +66,14 @@
   }
 
   :focus-visible {
-    outline: 2px solid hsl(var(--teal));
+    outline: 2px solid hsl(var(--color-accent));
     outline-offset: 2px;
     border-radius: 8px;
   }
 
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--teal) / 0.25);
+    background: hsl(var(--color-accent) / 0.25);
     border-radius: 8px;
   }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -69,7 +88,7 @@
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: hsl(var(--teal));
+    color: hsl(var(--color-accent));
   }
 
   /* Wave / organic shape divider used at bottom of hero */
@@ -118,7 +137,7 @@
 
   /* Announcement bar text */
   .announce-bar {
-    background: hsl(var(--teal));
+    background: hsl(var(--color-accent));
     color: white;
     text-align: center;
     font-size: 13px;

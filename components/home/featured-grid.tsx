@@ -1,49 +1,64 @@
 import Link from "next/link";
-import { ProductCard } from "@/components/product/product-card";
-import { products } from "@/lib/data";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { db } from "@/lib/db";
+import { ProductCardServer } from "@/components/product/product-card-server";
 
-export function FeaturedGrid() {
-  const featured = products.slice(0, 8);
+export async function FeaturedGrid() {
+  const products = await db.product.findMany({
+    where: { isActive: true, isFeatured: true },
+    include: {
+      images: { orderBy: { sortOrder: "asc" }, take: 1 },
+      brand: { select: { name: true } },
+      category: { select: { slug: true } },
+    },
+    orderBy: { ratingCount: "desc" },
+    take: 8,
+  }).catch(() => []);
+
+  if (products.length === 0) return null;
 
   return (
-    <section className="bg-white py-16 px-6">
-      <div className="mx-auto max-w-[1400px]">
-        {/* Section header */}
-        <div className="mb-10 flex items-end justify-between">
+    <section className="bg-[#FFFCF6] py-20 px-6 border-y border-[#EAD7C2]/40">
+      <div className="mx-auto max-w-[1280px]">
+        
+        {/* Section Header */}
+        <div className="mb-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
           <div>
-            <p className="mono-label mb-2">/ this week</p>
-            <h2 className="text-[36px] font-black text-ink leading-tight">
-              New Arrivals 🐾
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#CFE8B8]/30 border border-[#CFE8B8]/60 text-[11px] font-black uppercase tracking-wider text-[#3A241A] mb-3">
+              <Sparkles size={12} className="text-[#7AA95C]" />
+              <span>This Week's Favorites 🐾</span>
+            </div>
+            <h2 className="text-4xl md:text-[44px] font-black text-[#3A241A] leading-tight font-display">
+              Fresh &amp; Friendly Best Sellers
             </h2>
-            <p className="mt-2 text-[15px] text-ink-muted font-semibold">
-              Restocks, fresh picks & small-batch makers.
+            <p className="mt-3 text-base sm:text-lg text-[#7A6253] font-medium max-w-[550px]">
+              Restocks, fresh picks &amp; vet-approved essentials for your best buds.
             </p>
           </div>
+          
           <Link
-            href="/category/dog"
-            className="hidden items-center gap-2 rounded-full border-2 border-teal px-6 py-3 text-[14px] font-black text-teal transition-all hover:bg-teal hover:text-white md:flex"
+            href="/category/all"
+            className="inline-flex items-center gap-2 rounded-full bg-[#FFF8EC] border border-[#EAD7C2] px-8 py-3.5 text-sm font-black text-[#4A2F22] transition-all hover:bg-[#F2DEC3]/45"
           >
-            View all <ArrowRight size={15} strokeWidth={3} />
+            View All <ArrowRight size={16} strokeWidth={2.5} />
           </Link>
         </div>
 
-        {/* Product grid */}
-        <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-6 scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible md:pb-0">
-          {featured.map((p) => (
-            <div key={p.id} className="w-[80vw] shrink-0 snap-center sm:w-[45vw] md:w-auto">
-              <ProductCard product={p} />
+        {/* Responsive Grid */}
+        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible md:pb-0">
+          {products.map((p) => (
+            <div key={p.id} className="w-[85vw] shrink-0 snap-center sm:w-[45vw] md:w-auto">
+              <ProductCardServer product={p} />
             </div>
           ))}
         </div>
 
-        {/* Mobile view-all */}
         <div className="mt-8 text-center md:hidden">
           <Link
-            href="/category/dog"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-teal px-6 py-3 text-[14px] font-black text-teal"
+            href="/category/all"
+            className="inline-flex items-center gap-2 rounded-full bg-[#FFF8EC] border border-[#EAD7C2] px-8 py-3.5 text-sm font-black text-[#4A2F22]"
           >
-            View all <ArrowRight size={15} strokeWidth={3} />
+            View All <ArrowRight size={16} strokeWidth={2.5} />
           </Link>
         </div>
       </div>

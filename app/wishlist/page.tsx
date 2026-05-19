@@ -13,14 +13,14 @@ export default function WishlistPage() {
   return (
     <section className="mx-auto max-w-[1400px] px-8 py-14">
       <p className="mono-label">/kept close · {ids.length} items</p>
-      <h1 className="mt-3 max-w-[14ch] font-serif text-[88px] italic leading-[0.95] text-ink">
+      <h1 className="mt-3 max-w-[14ch] font-serif text-[88px] italic leading-[0.95] text-primary">
         Your wishlist.
       </h1>
 
       {saved.length === 0 ? (
-        <div className="mt-16 rounded-lg border border-dashed border-ink/20 bg-white/50 p-16 text-center">
-          <p className="font-serif text-[28px] italic text-ink">Nothing kept yet.</p>
-          <p className="mx-auto mt-3 max-w-[36ch] text-[14px] text-ink-muted">
+        <div className="mt-16 rounded-lg border border-dashed border-border bg-white/50 p-16 text-center">
+          <p className="font-serif text-[28px] italic text-primary">Nothing kept yet.</p>
+          <p className="mx-auto mt-3 max-w-[36ch] text-[14px] text-muted">
             Tap the heart on anything you fancy. It'll land here, waiting patiently.
           </p>
           <Button asChild variant="coral" size="lg" className="mt-6">

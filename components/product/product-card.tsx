@@ -3,53 +3,49 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Heart, ShoppingBag } from 'lucide-react';
 
-export function ProductCard({ product, offset }: { product: any, offset?: number }) {
+export function ProductCard({ product, offset }: { product: any; offset?: number }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent navigation
-    
-    // Add to cart animation
     const button = e.currentTarget;
     const rect = button.getBoundingClientRect();
-    
-    // Create flying product icon
     createFlyingIcon(rect, product.image);
   };
 
   return (
-    <Link href={`/product/${product.id}`} passHref legacyBehavior>
-      <motion.a
-        className="product-card block relative"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        whileHover={{ 
-          y: -8,
-          scale: 1.01,
-          transition: { duration: 0.3 }
-        }}
-      >
-        {/* Badge */}
-        {product.tag && (
-          <motion.div 
-            className={`badge badge-${product.tag.toLowerCase().replace(/\s+/g, '-')}`}
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            {product.tag}
-          </motion.div>
-        )}
+    <motion.div
+      className="block relative group"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+    >
+      <div className="flex flex-col h-full bg-[#FFFCF6] rounded-[28px] border border-[#EAD7C2] overflow-hidden shadow-[0_8px_24px_rgba(74,47,34,0.05)] transition-all duration-300 hover:shadow-[0_16px_36px_rgba(74,47,34,0.08)] hover:-translate-y-1 hover:border-[#C98B5A] relative">
+        <Link href={`/product/${product.id}`} className="absolute inset-0 z-0" aria-label={`View ${product.name}`} />
         
-        {/* Image Container */}
-        <div className="image-container">
+        {/* Playful Stickers / Badges */}
+        <div className="absolute top-3 left-3 z-10 flex flex-col gap-2 pointer-events-none">
+          {product.tag && (
+            <span className="inline-block bg-[#F8D66D] text-[#3A241A] px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+              {product.tag}
+            </span>
+          )}
+          {product.discount && (
+            <span className="inline-block bg-[#D94F70] text-[#FFF8EC] px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+              -{product.discount}%
+            </span>
+          )}
+        </div>
+        
+        {/* Soft Pastel Image Area */}
+        <div className="relative w-full aspect-[4/3] bg-[#FFF8EC] p-6 overflow-hidden flex items-center justify-center border-b border-[#EAD7C2]/40">
           <motion.img
             src={product.image}
             alt={product.name}
-            className="product-image"
+            className="w-full h-full object-contain mix-blend-multiply"
             onLoad={() => setImageLoaded(true)}
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ 
@@ -60,54 +56,45 @@ export function ProductCard({ product, offset }: { product: any, offset?: number
             transition={{ duration: 0.6 }}
           />
           
-          {/* Wishlist Button */}
-          <motion.button
-            className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
+          {/* Wishlist Button: Cream rounded with Cocoa icon */}
+          <button
+            className="absolute top-3 right-3 z-10 p-2.5 rounded-full bg-[#FFFCF6] shadow-sm border border-[#EAD7C2] transition-colors hover:bg-[#F2DEC3]/40"
             onClick={(e: React.MouseEvent) => { e.preventDefault(); setIsWishlisted(!isWishlisted); }}
-            whileTap={{ scale: 0.9 }}
             aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
-            <motion.svg
-              viewBox="0 0 24 24"
-              fill={isWishlisted ? "#EF4444" : "none"}
-              stroke={isWishlisted ? "#EF4444" : "#A3A3A3"}
-              strokeWidth="2"
-              animate={isWishlisted ? { scale: [1, 1.2, 1] } : {}}
-              transition={{ duration: 0.3 }}
-            >
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </motion.svg>
-          </motion.button>
+            <Heart
+              size={16}
+              fill={isWishlisted ? "#C95C5C" : "transparent"}
+              stroke={isWishlisted ? "#C95C5C" : "#4A2F22"}
+              className="transition-colors"
+            />
+          </button>
         </div>
         
-        {/* Card Content */}
-        <div className="card-content">
-          <p className="brand">{product.brand}</p>
-          <h3 className="product-name">{product.name}</h3>
-          <p className="product-weight">{product.weight || "Standard Size"}</p>
+        {/* Content Section */}
+        <div className="p-5 flex flex-col flex-1">
+          <p className="text-xs font-black uppercase tracking-widest text-[#9B8475] mb-1.5">{product.brand}</p>
+          <h3 className="text-[17px] font-black text-[#3A241A] font-display leading-snug line-clamp-2 mb-2 flex-1 hover:text-[#C98B5A] transition-colors">{product.name}</h3>
+          <p className="text-xs font-bold text-[#7A6253] mb-4 bg-[#F2DEC3]/30 px-3 py-1 rounded-full w-max border border-[#EAD7C2]/20">{product.weight || "Standard Size"}</p>
           
-          <div className="price-cart">
-            <span className="price">₹{product.price}</span>
+          <div className="flex items-end justify-between mt-auto pt-4 border-t border-[#EAD7C2]/50">
+            <div className="flex flex-col">
+              <span className="text-xl font-black text-[#3A241A] font-display">₹{product.price}</span>
+            </div>
             
-            <motion.button
-              className="add-to-cart"
+            {/* Add to Cart Button: Cocoa Background */}
+            <button
+              className="flex items-center justify-center w-11 h-11 rounded-full bg-[#4A2F22] text-[#FFF8EC] transition-all hover:bg-[#6B4636] hover:scale-105 active:scale-95 shadow-[0_4px_12px_rgba(74,47,34,0.12)]"
               onClick={handleAddToCart}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
               aria-label="Add to cart"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M9 2L7 6h14l-2-4H9z" stroke="currentColor" strokeWidth="2"/>
-                <path d="M7 6h14v13a2 2 0 01-2 2H9a2 2 0 01-2-2V6z" stroke="currentColor" strokeWidth="2"/>
-              </svg>
-            </motion.button>
+              <ShoppingBag size={18} />
+            </button>
           </div>
         </div>
-      </motion.a>
-    </Link>
+
+      </div>
+    </motion.div>
   );
 }
 
@@ -123,7 +110,7 @@ function createFlyingIcon(startRect: DOMRect, imageSrc: string) {
     height: 60px;
     background: white;
     border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 24px rgba(74,47,34,0.2);
     z-index: 9999;
     pointer-events: none;
   `;
@@ -135,11 +122,9 @@ function createFlyingIcon(startRect: DOMRect, imageSrc: string) {
   
   document.body.appendChild(icon);
   
-  // Get cart position
   const cart = document.querySelector('.cart-icon') || document.querySelector('[aria-label="Cart"]') || document.querySelector('header');
   const cartRect = cart ? cart.getBoundingClientRect() : { left: window.innerWidth - 50, top: 20 };
   
-  // Animate to cart
   icon.animate([
     { 
       left: `${startRect.left}px`,

@@ -6,28 +6,34 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2.5 rounded-full font-black whitespace-nowrap transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2.5 rounded-full font-bold whitespace-nowrap transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        // Primary — teal
         default:
-          "bg-teal text-white shadow-teal hover:-translate-y-0.5 hover:bg-teal-deep hover:shadow-teal-hover",
-        // Orange CTA
-        coral:
-          "bg-orange text-white shadow-orange hover:-translate-y-0.5 hover:bg-orange-deep hover:shadow-orange-hover",
-        orange:
-          "bg-orange text-white shadow-orange hover:-translate-y-0.5 hover:bg-orange-deep hover:shadow-orange-hover",
-        teal:
-          "bg-teal text-white shadow-teal hover:-translate-y-0.5 hover:bg-teal-deep hover:shadow-teal-hover",
-        // Outlined
+          "bg-primary text-white hover:bg-primary-dark shadow-soft-sm hover:shadow-soft-md hover:-translate-y-0.5",
+        primary:
+          "bg-primary text-white hover:bg-primary-dark shadow-soft-sm hover:shadow-soft-md hover:-translate-y-0.5",
+        secondary:
+          "bg-white text-primary border border-border hover:bg-ice shadow-soft-sm",
+        accent:
+          "bg-accent text-white hover:bg-[#128a96] shadow-soft-sm hover:shadow-soft-md hover:-translate-y-0.5",
+        offer:
+          "bg-offer text-white hover:bg-[#E55A3D] shadow-soft-sm hover:-translate-y-0.5",
         ghost:
-          "bg-transparent text-ink border-2 border-ink/20 hover:border-teal hover:text-teal",
+          "bg-transparent text-primary hover:bg-ice",
         outline:
-          "bg-transparent text-teal border-2 border-teal hover:bg-teal hover:text-white",
-        // Dark
-        ink: "bg-ink text-white hover:-translate-y-0.5 hover:shadow-soft-md",
-        plain: "bg-transparent text-ink hover:bg-ink/5",
+          "bg-transparent text-primary border border-border hover:bg-ice",
+        ink: 
+          "bg-primary text-white hover:-translate-y-0.5 hover:shadow-soft-md",
+        plain: 
+          "bg-transparent text-muted hover:text-primary hover:bg-ice",
+        coral:
+          "bg-offer text-white hover:bg-[#E55A3D] shadow-soft-sm hover:-translate-y-0.5",
+        orange:
+          "bg-offer text-white hover:bg-[#E55A3D] shadow-soft-sm hover:-translate-y-0.5",
+        teal:
+          "bg-accent text-white hover:bg-[#128a96] shadow-soft-sm hover:-translate-y-0.5",
       },
       size: {
         default: "px-7 py-3.5 text-[15px]",
@@ -36,7 +42,7 @@ const buttonVariants = cva(
         icon: "h-10 w-10 p-0",
       },
     },
-    defaultVariants: { variant: "teal", size: "default" },
+    defaultVariants: { variant: "primary", size: "default" },
   },
 );
 

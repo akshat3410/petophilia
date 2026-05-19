@@ -1,8 +1,37 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Shield, Heart, Stethoscope, Clock, Phone, Star } from "lucide-react";
 import { products } from "@/lib/data";
 import { ProductCard } from "@/components/product/product-card";
 import { formatPrice } from "@/lib/utils";
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Vet Care — Expert Pet Health Products & Services",
+  description:
+    "Vet-approved supplements, dental care, parasite control & wellness essentials for dogs and cats in India. 74+ products from trusted brands. Free vet helpline for Pet-o-philia customers.",
+  keywords: [
+    "pet vet care India",
+    "dog supplements online India",
+    "cat dental care products",
+    "pet wellness products",
+    "vet approved pet products India",
+    "pet parasite control",
+    "pet health supplements India",
+    "calming chews for dogs",
+  ],
+  openGraph: {
+    title: `Vet Care — Expert Pet Health Products & Services | ${SITE_NAME}`,
+    description:
+      "Vet-approved supplements, dental care & wellness essentials for dogs and cats. Free vet helpline.",
+    url: `${SITE_URL}/vet-care`,
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_IN",
+    images: [{ url: "/images/og-default.jpg", width: 1200, height: 630 }],
+  },
+  alternates: { canonical: `${SITE_URL}/vet-care` },
+};
 
 const SERVICES = [
   {
@@ -110,14 +139,14 @@ export default function VetCarePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/category/vet"
-                className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-black text-white shadow-orange transition-all hover:scale-105"
-                style={{ background: "hsl(var(--orange))" }}
+                className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-black text-white shadow-soft-sm transition-all hover:scale-105"
+                style={{ background: "var(--color-offer)" }}
               >
                 Shop Vet Products <ArrowRight size={16} strokeWidth={3} />
               </Link>
               <a
                 href="tel:+911800000000"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-white px-7 py-3.5 text-[15px] font-black text-white transition-all hover:bg-white hover:text-teal"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-white px-7 py-3.5 text-[15px] font-black text-white transition-all hover:bg-white hover:text-accent"
                 style={{ color: "white" }}
               >
                 <Phone size={16} strokeWidth={2.5} /> Call a Vet
@@ -154,10 +183,10 @@ export default function VetCarePage() {
         <div className="mx-auto max-w-[1400px]">
           <div className="mb-10 text-center">
             <p className="mono-label mb-2">/ our expertise</p>
-            <h2 className="text-[36px] font-black text-ink leading-tight">
+            <h2 className="text-[36px] font-black text-primary leading-tight">
               Complete Care, All in One Place 🏥
             </h2>
-            <p className="mt-2 text-[15px] font-semibold text-ink-muted">
+            <p className="mt-2 text-[15px] font-semibold text-muted">
               From preventive wellness to specialised treatments.
             </p>
           </div>
@@ -166,13 +195,13 @@ export default function VetCarePage() {
             {SERVICES.map((s) => (
               <div
                 key={s.title}
-                className="group rounded-2xl border border-teal/15 bg-white p-7 shadow-soft-sm transition-all hover:border-teal/40 hover:shadow-soft-md"
+                className="group rounded-2xl border border-accent/15 bg-white p-7 shadow-soft-sm transition-all hover:border-accent/40 hover:shadow-soft-md"
               >
                 <span className="text-[40px]">{s.icon}</span>
-                <h3 className="mt-4 text-[18px] font-black text-ink group-hover:text-teal transition-colors">
+                <h3 className="mt-4 text-[18px] font-black text-primary group-hover:text-accent transition-colors">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-[14px] font-semibold leading-relaxed text-ink-muted">
+                <p className="mt-2 text-[14px] font-semibold leading-relaxed text-muted">
                   {s.desc}
                 </p>
               </div>
@@ -182,11 +211,11 @@ export default function VetCarePage() {
       </section>
 
       {/* ── Health Tips ── */}
-      <section className="bg-sand px-6 py-16">
+      <section className="bg-surface px-6 py-16">
         <div className="mx-auto max-w-[1400px]">
           <div className="mb-10 text-center">
             <p className="mono-label mb-2">/ vet tips</p>
-            <h2 className="text-[36px] font-black text-ink leading-tight">
+            <h2 className="text-[36px] font-black text-primary leading-tight">
               Quick Health Tips 💡
             </h2>
           </div>
@@ -194,8 +223,8 @@ export default function VetCarePage() {
             {TIPS.map((t) => (
               <div key={t.title} className="rounded-2xl bg-white p-6 shadow-soft-sm">
                 <span className="text-[36px]">{t.emoji}</span>
-                <h3 className="mt-3 text-[16px] font-black text-ink">{t.title}</h3>
-                <p className="mt-2 text-[13px] font-semibold leading-relaxed text-ink-muted">{t.body}</p>
+                <h3 className="mt-3 text-[16px] font-black text-primary">{t.title}</h3>
+                <p className="mt-2 text-[13px] font-semibold leading-relaxed text-muted">{t.body}</p>
               </div>
             ))}
           </div>
@@ -208,16 +237,16 @@ export default function VetCarePage() {
           <div className="mb-10 flex items-end justify-between">
             <div>
               <p className="mono-label mb-2">/ vet essentials</p>
-              <h2 className="text-[36px] font-black text-ink leading-tight">
+              <h2 className="text-[36px] font-black text-primary leading-tight">
                 Vet-Approved Products 🛡️
               </h2>
-              <p className="mt-2 text-[15px] font-semibold text-ink-muted">
+              <p className="mt-2 text-[15px] font-semibold text-muted">
                 Supplements, dental care & wellness — handpicked for your pet's health.
               </p>
             </div>
             <Link
               href="/category/vet"
-              className="hidden items-center gap-2 rounded-full border-2 border-teal px-6 py-3 text-[14px] font-black text-teal transition-all hover:bg-teal hover:text-white md:flex"
+              className="hidden items-center gap-2 rounded-full border-2 border-accent px-6 py-3 text-[14px] font-black text-accent transition-all hover:bg-accent hover:text-white md:flex"
             >
               View all <ArrowRight size={15} strokeWidth={3} />
             </Link>
@@ -236,7 +265,7 @@ export default function VetCarePage() {
         <div className="mx-auto max-w-[1400px]">
           <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
             <div>
-              <p className="text-[12px] font-black uppercase tracking-widest text-teal-light mb-2">
+              <p className="text-[12px] font-black uppercase tracking-widest text-accent-light mb-2">
                 🚨 Emergency
               </p>
               <h2 className="text-[28px] font-black text-white leading-tight">

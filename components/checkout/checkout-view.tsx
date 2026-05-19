@@ -12,7 +12,7 @@ import { formatPrice, shippingFor, FREE_SHIP_THRESHOLD } from "@/lib/utils";
 type Step = "contact" | "shipping" | "payment" | "done";
 
 export function CheckoutView() {
-  const { itemsWithProduct, subtotal, clear } = useCart();
+  const { items, subtotal, clear } = useCart();
   const [step, setStep] = useState<Step>("contact");
 
   const shipping = shippingFor(subtotal);
@@ -26,16 +26,16 @@ export function CheckoutView() {
 
   return (
     <section className="mx-auto max-w-[1200px] px-8 py-14">
-      <div className="flex items-center gap-2 text-[12px] text-ink-muted">
-        <Link href="/" className="hover:text-teal">Home</Link>
+      <div className="flex items-center gap-2 text-[12px] text-muted">
+        <Link href="/" className="hover:text-accent">Home</Link>
         <ChevronRight size={12} />
-        <span className="text-ink">Checkout</span>
+        <span className="text-primary">Checkout</span>
       </div>
 
       <div className="mt-8 grid gap-14 lg:grid-cols-[1.4fr_1fr]">
         <div>
           <p className="mono-label">/checkout</p>
-          <h1 className="mt-2 font-serif text-[56px] italic leading-none text-ink">
+          <h1 className="mt-2 font-serif text-[56px] italic leading-none text-primary">
             Almost there.
           </h1>
 
@@ -45,13 +45,13 @@ export function CheckoutView() {
               <li key={s} className="flex items-center gap-3">
                 <span
                   className={`grid h-6 w-6 place-items-center rounded-full ${
-                    i <= stepIdx ? "bg-teal text-white" : "bg-teal/10 text-ink-muted"
+                    i <= stepIdx ? "bg-accent text-white" : "bg-accent/10 text-muted"
                   }`}
                 >
                   {i < stepIdx ? <Check size={12} /> : i + 1}
                 </span>
-                <span className={i === stepIdx ? "text-ink" : "text-ink-muted"}>{s}</span>
-                {i < steps.length - 1 && <span className="w-8 border-t border-ink/15" />}
+                <span className={i === stepIdx ? "text-primary" : "text-muted"}>{s}</span>
+                {i < steps.length - 1 && <span className="w-8 border-t border-border/15" />}
               </li>
             ))}
           </ol>
@@ -88,13 +88,13 @@ export function CheckoutView() {
                   ].map((s, i) => (
                     <label
                       key={s.label}
-                      className="flex cursor-pointer items-center justify-between rounded-[12px] border border-ink/10 bg-white p-4 hover:border-ink"
+                      className="flex cursor-pointer items-center justify-between rounded-[12px] border border-border bg-white p-4 hover:border-border"
                     >
                       <span className="flex items-center gap-3">
                         <input type="radio" name="ship" defaultChecked={i === 0} />
-                        <span className="text-[14px] text-ink">{s.label}</span>
+                        <span className="text-[14px] text-primary">{s.label}</span>
                       </span>
-                      <span className="font-mono text-[13px] text-ink">
+                      <span className="font-mono text-[13px] text-primary">
                         {s.cost === 0 ? "Free" : formatPrice(s.cost)}
                       </span>
                     </label>
@@ -124,7 +124,7 @@ export function CheckoutView() {
                 >
                   Place order · {formatPrice(total)}
                 </Button>
-                <p className="mt-3 text-center text-[11px] text-ink-muted">
+                <p className="mt-3 text-center text-[11px] text-muted">
                   You won't actually be charged. Promise.
                 </p>
               </Card>
@@ -133,31 +133,31 @@ export function CheckoutView() {
         </div>
 
         {/* Summary */}
-        <aside className="h-fit rounded-2xl bg-sand p-8 lg:sticky lg:top-24">
+        <aside className="h-fit rounded-2xl bg-surface p-8 lg:sticky lg:top-24">
           <p className="mono-label">/order summary</p>
-          <h2 className="mt-2 font-serif text-[28px] italic text-ink">In your basket</h2>
+          <h2 className="mt-2 font-serif text-[28px] italic text-primary">In your basket</h2>
 
           <ul className="mt-6 space-y-5">
-            {itemsWithProduct.map((item) => (
+            {items.map((item) => (
               <li key={item.id} className="flex gap-4">
                 <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[8px]">
-                  <ProductImage product={item.product} />
+                  <ProductImage product={item.product as any} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[14px] font-medium text-ink">{item.product.name}</p>
-                  <p className="font-mono text-[11px] text-ink-muted">× {item.qty}</p>
+                  <p className="truncate text-[14px] font-medium text-primary">{item.product.name}</p>
+                  <p className="font-mono text-[11px] text-muted">× {item.quantity}</p>
                 </div>
-                <p className="shrink-0 font-mono text-[13px] text-ink">
-                  {formatPrice(item.product.price * item.qty)}
+                <p className="shrink-0 font-mono text-[13px] text-primary">
+                  {formatPrice(item.product.price * item.quantity)}
                 </p>
               </li>
             ))}
-            {itemsWithProduct.length === 0 && (
-              <li className="text-[13px] text-ink-muted">Your basket is empty.</li>
+            {items.length === 0 && (
+              <li className="text-[13px] text-muted">Your basket is empty.</li>
             )}
           </ul>
 
-          <div className="mt-6 space-y-2 border-t border-ink/10 pt-5 text-[13px]">
+          <div className="mt-6 space-y-2 border-t border-border pt-5 text-[13px]">
             <Row label="Subtotal" value={formatPrice(subtotal)} />
             <Row
               label="Shipping"
@@ -166,9 +166,9 @@ export function CheckoutView() {
             />
             <Row label="Tax (5%)" value={formatPrice(tax)} />
           </div>
-          <div className="mt-4 flex items-baseline justify-between border-t border-ink/10 pt-4">
-            <span className="text-[14px] text-ink-muted">Total</span>
-            <span className="font-mono text-[22px] text-ink">{formatPrice(total)}</span>
+          <div className="mt-4 flex items-baseline justify-between border-t border-border pt-4">
+            <span className="text-[14px] text-muted">Total</span>
+            <span className="font-mono text-[22px] text-primary">{formatPrice(total)}</span>
           </div>
         </aside>
       </div>
@@ -178,7 +178,7 @@ export function CheckoutView() {
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-lg border border-ink/10 bg-white p-7 shadow-soft-sm">
+    <div className="rounded-lg border border-border bg-white p-7 shadow-soft-sm">
       <p className="mono-label">/{title}</p>
       <div className="mt-5">{children}</div>
     </div>
@@ -188,10 +188,10 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 function Row({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div className="flex items-baseline justify-between">
-      <span className="text-ink-muted">
+      <span className="text-muted">
         {label} {hint && <span className="ml-1 text-[11px]">· {hint}</span>}
       </span>
-      <span className="font-mono text-ink">{value}</span>
+      <span className="font-mono text-primary">{value}</span>
     </div>
   );
 }
@@ -200,12 +200,12 @@ function ThankYou() {
   return (
     <section className="mx-auto max-w-[780px] px-8 py-24 text-center">
       <p className="mono-label">/confirmed · #PT-04281</p>
-      <h1 className="mt-6 font-serif text-[92px] italic leading-[0.95] text-ink">
+      <h1 className="mt-6 font-serif text-[92px] italic leading-[0.95] text-primary">
         Thank you,
         <br />
-        <span className="text-teal">kindly.</span>
+        <span className="text-accent">kindly.</span>
       </h1>
-      <p className="mx-auto mt-6 max-w-[44ch] text-[16px] leading-[1.55] text-ink-soft">
+      <p className="mx-auto mt-6 max-w-[44ch] text-[16px] leading-[1.55] text-muted">
         Your pantry is being packed. You'll get an email when it ships — usually within a day, with
         a note from whoever boxed it.
       </p>

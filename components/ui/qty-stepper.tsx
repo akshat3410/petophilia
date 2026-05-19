@@ -19,7 +19,7 @@ export function QtyStepper({ qty, onChange, min = 0, size = "sm", className }: Q
     <div
       className={cn(
         "inline-flex items-center rounded-full",
-        size === "sm" ? "bg-white p-0.5" : "border border-teal/20 p-1",
+        size === "sm" ? "bg-white p-0.5" : "border border-accent/20 p-1",
         className,
       )}
     >
@@ -27,7 +27,7 @@ export function QtyStepper({ qty, onChange, min = 0, size = "sm", className }: Q
         type="button"
         aria-label="Decrease"
         onClick={() => onChange(Math.max(min, qty - 1))}
-        className={cn("grid place-items-center rounded-full text-ink", btnSize)}
+        className={cn("grid place-items-center rounded-full text-primary", btnSize)}
       >
         <Minus size={size === "sm" ? 12 : 14} />
       </button>
@@ -36,7 +36,7 @@ export function QtyStepper({ qty, onChange, min = 0, size = "sm", className }: Q
         type="button"
         aria-label="Increase"
         onClick={() => onChange(qty + 1)}
-        className={cn("grid place-items-center rounded-full text-ink", btnSize)}
+        className={cn("grid place-items-center rounded-full text-primary", btnSize)}
       >
         <Plus size={size === "sm" ? 12 : 14} />
       </button>

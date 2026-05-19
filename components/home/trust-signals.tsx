@@ -1,35 +1,57 @@
-import { Truck, CheckCircle2, Heart } from "lucide-react";
+import { Truck, CheckCircle2, Heart, ShieldCheck, RefreshCcw } from "lucide-react";
+
+const SIGNALS = [
+  {
+    icon: Truck,
+    title: "Fast Delivery",
+    subtitle: "Free on orders ₹999+",
+    iconBg: "bg-[#F8D66D]/30 text-[#4A2F22] border-[#F8D66D]/50",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Vet-Approved",
+    subtitle: "Safe, trusted essentials",
+    iconBg: "bg-[#CFE8B8]/35 text-[#4A2F22] border-[#CFE8B8]/60",
+  },
+  {
+    icon: CheckCircle2,
+    title: "Quality Assured",
+    subtitle: "Curated premium brands",
+    iconBg: "bg-[#FFD9B7]/40 text-[#4A2F22] border-[#FFD9B7]/60",
+  },
+  {
+    icon: Heart,
+    title: "Parent Loved",
+    subtitle: "4.9★ average rating",
+    iconBg: "bg-[#F7C7C9]/35 text-[#C95C5C] border-[#F7C7C9]/60",
+  },
+  {
+    icon: RefreshCcw,
+    title: "Easy Returns",
+    subtitle: "Hassle-free policy",
+    iconBg: "bg-[#D9C7F2]/30 text-[#4A2F22] border-[#D9C7F2]/50",
+  },
+];
 
 export function TrustSignals() {
   return (
-    <section className="bg-sand/30 py-12 border-t border-gray-100">
-      <div className="mx-auto max-w-[1400px] px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x divide-gray-200">
-          
-          <div className="flex flex-col items-center text-center">
-            <div className="h-12 w-12 rounded-full bg-teal/10 text-teal flex items-center justify-center mb-4">
-              <Truck size={24} />
-            </div>
-            <h3 className="text-[16px] font-bold text-ink mb-1">Free Shipping</h3>
-            <p className="text-[14px] text-ink-muted font-medium">Over ₹999</p>
-          </div>
-
-          <div className="flex flex-col items-center text-center">
-            <div className="h-12 w-12 rounded-full bg-teal/10 text-teal flex items-center justify-center mb-4">
-              <CheckCircle2 size={24} />
-            </div>
-            <h3 className="text-[16px] font-bold text-ink mb-1">Quality Assured</h3>
-            <p className="text-[14px] text-ink-muted font-medium">Premium Brands</p>
-          </div>
-
-          <div className="flex flex-col items-center text-center">
-            <div className="h-12 w-12 rounded-full bg-[#E53935]/10 text-[#E53935] flex items-center justify-center mb-4">
-              <Heart size={24} />
-            </div>
-            <h3 className="text-[16px] font-bold text-ink mb-1">Pet Parent Loved</h3>
-            <p className="text-[14px] text-ink-muted font-medium">4.8★ (2,450 reviews)</p>
-          </div>
-
+    <section className="bg-[#FFFCF6] py-16 border-t border-[#EAD7C2]/40">
+      <div className="mx-auto max-w-[1280px] px-6">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+          {SIGNALS.map((s) => {
+            const Icon = s.icon;
+            return (
+              <div key={s.title} className="flex flex-col items-center text-center gap-4 group">
+                <div className={`h-14 w-14 rounded-full border ${s.iconBg} flex items-center justify-center shadow-sm group-hover:scale-105 transition-all duration-300`}>
+                  <Icon size={22} />
+                </div>
+                <div>
+                  <h3 className="text-[15px] font-black text-[#3A241A] font-display">{s.title}</h3>
+                  <p className="text-xs text-[#7A6253] font-bold mt-1">{s.subtitle}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

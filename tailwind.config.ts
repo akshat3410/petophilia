@@ -11,37 +11,72 @@ const config: Config = {
       colors: {
         bg: "hsl(var(--bg) / <alpha-value>)",
         "bg-tint": "hsl(var(--bg-tint) / <alpha-value>)",
+        
+        // Warm Pastel Tokens
+        primary: {
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          dark: "hsl(var(--primary-dark) / <alpha-value>)",
+          soft: "hsl(var(--primary-soft) / <alpha-value>)",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+          soft: "hsl(var(--accent-soft) / <alpha-value>)",
+        },
+        ice: "hsl(var(--ice) / <alpha-value>)",
+        surface: "hsl(var(--surface) / <alpha-value>)",
+        border: "hsl(var(--border) / <alpha-value>)",
+        offer: "hsl(var(--offer) / <alpha-value>)",
+
+        // Pastel Accents
+        butter: "#F8D66D",
+        pistachio: "#CFE8B8",
+        blush: "#F7C7C9",
+        lilac: "#D9C7F2",
+        powder: "#BFDDEE",
+        peach: "#FFD9B7",
+        cocoa: "#4A2F22",
+        chocolate: "#6B4636",
+        caramel: "#C98B5A",
+        cream: "#FFF8EC",
+        "warm-white": "#FFFCF6",
+        oat: "#F7EAD8",
+        beige: "#F2DEC3",
+        success: "#7AA95C",
+        warning: "#D89B2B",
+        error: "#C95C5C",
+        sale: "#D94F70",
+
+        // Mapped values to ensure backward compatibility
         teal: {
-          DEFAULT: "hsl(var(--teal) / <alpha-value>)",
-          deep: "hsl(var(--teal-deep) / <alpha-value>)",
-          light: "hsl(var(--teal-light) / <alpha-value>)",
+          DEFAULT: "#C98B5A", // maps to warm Caramel instead of cold teal
+          deep: "#4A2F22",
+          light: "#FFF8EC",
         },
         orange: {
-          DEFAULT: "hsl(var(--orange) / <alpha-value>)",
-          deep: "hsl(var(--orange-deep) / <alpha-value>)",
+          DEFAULT: "#D94F70",
+          deep: "#C95C5C",
         },
         sand: {
-          DEFAULT: "hsl(var(--sand) / <alpha-value>)",
-          deep: "hsl(var(--sand-deep) / <alpha-value>)",
+          DEFAULT: "#FFF8EC",
+          deep: "#F2DEC3",
         },
         ink: {
-          DEFAULT: "hsl(var(--ink) / <alpha-value>)",
-          soft: "hsl(var(--ink-soft) / <alpha-value>)",
-          muted: "hsl(var(--ink-muted) / <alpha-value>)",
+          DEFAULT: "#3A241A",
+          soft: "#7A6253",
+          muted: "#9B8475",
         },
-        // keep old names so other components don't break
         coral: {
-          DEFAULT: "hsl(var(--orange) / <alpha-value>)",
-          deep: "hsl(var(--orange-deep) / <alpha-value>)",
+          DEFAULT: "#D94F70",
+          deep: "#C95C5C",
         },
-        sage: "hsl(var(--teal-light) / <alpha-value>)",
-        clay: "hsl(var(--sand) / <alpha-value>)",
-        line: "hsl(var(--line) / <alpha-value>)",
+        sage: "#CFE8B8",
+        clay: "#FFF8EC",
+        line: "hsl(var(--border) / <alpha-value>)",
       },
       fontFamily: {
-        display: ["var(--font-nunito)", "Nunito", "sans-serif"],
-        sans: ["var(--font-nunito)", "Nunito", "sans-serif"],
-        serif: ["var(--font-nunito)", "Nunito", "sans-serif"],
+        display: ["var(--font-fraunces)", "Fraunces", "serif"],
+        sans: ["var(--font-jakarta)", "Plus Jakarta Sans", "sans-serif"],
+        serif: ["var(--font-fraunces)", "Fraunces", "serif"],
         mono: ["var(--font-space)", "ui-monospace", "monospace"],
       },
       borderRadius: {

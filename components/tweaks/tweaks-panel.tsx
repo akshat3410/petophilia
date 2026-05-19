@@ -38,7 +38,7 @@ export function TweaksPanel() {
         onClick={togglePanel}
         aria-label="Toggle tweaks"
         className={cn(
-          "fixed bottom-6 right-6 z-40 flex h-11 items-center gap-2 rounded-full bg-teal px-4 text-white shadow-soft-lg transition-all duration-200 hover:-translate-y-0.5",
+          "fixed bottom-6 left-6 z-40 flex h-11 items-center gap-2 rounded-full bg-accent px-4 text-white shadow-soft-lg transition-all duration-200 hover:-translate-y-0.5",
           panelVisible && "opacity-0 pointer-events-none",
         )}
       >
@@ -49,19 +49,19 @@ export function TweaksPanel() {
       {/* Panel */}
       <aside
         className={cn(
-          "fixed bottom-6 right-6 z-40 w-[300px] rounded-2xl border border-teal/20 bg-white shadow-soft-lg backdrop-blur-lg transition-all duration-200",
+          "fixed bottom-6 left-6 z-40 w-[300px] rounded-2xl border border-accent/20 bg-white shadow-soft-lg backdrop-blur-lg transition-all duration-200",
           panelVisible ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
         )}
       >
-        <div className="flex items-center justify-between border-b border-ink/10 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
-            <p className="text-[12px] font-black uppercase tracking-[0.14em] text-teal">/design knobs</p>
-            <h3 className="mt-1 text-[18px] font-black leading-none text-ink">Tweaks</h3>
+            <p className="text-[12px] font-black uppercase tracking-[0.14em] text-accent">/design knobs</p>
+            <h3 className="mt-1 text-[18px] font-black leading-none text-primary">Tweaks</h3>
           </div>
           <button
             onClick={() => setPanelVisible(false)}
             aria-label="Close"
-            className="grid h-8 w-8 place-items-center rounded-full text-ink transition-colors hover:bg-ink/5"
+            className="grid h-8 w-8 place-items-center rounded-full text-primary transition-colors hover:bg-border/30"
           >
             <X size={16} />
           </button>
@@ -76,17 +76,17 @@ export function TweaksPanel() {
                   onClick={() => setTweak("mood", m.id)}
                   className={cn(
                     "group flex flex-col items-center gap-1.5 rounded-sm p-1.5 transition-colors",
-                    tweaks.mood === m.id ? "bg-ink/5" : "hover:bg-ink/[0.03]",
+                    tweaks.mood === m.id ? "bg-border/30" : "hover:bg-primary/[0.03]",
                   )}
                 >
                   <span
                     className={cn(
                       "h-7 w-full rounded-[6px] border transition-transform",
-                      tweaks.mood === m.id ? "border-teal scale-100" : "border-ink/10",
+                      tweaks.mood === m.id ? "border-accent scale-100" : "border-border",
                     )}
                     style={{ background: m.swatch }}
                   />
-                  <span className="text-[11px] font-semibold text-ink">{m.label}</span>
+                  <span className="text-[11px] font-semibold text-primary">{m.label}</span>
                 </button>
               ))}
             </div>
@@ -140,14 +140,14 @@ function SegmentedRow<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-1 rounded-full bg-ink/5 p-1">
+    <div className="grid grid-cols-3 gap-1 rounded-full bg-border/30 p-1">
       {options.map((o) => (
         <button
           key={o.id}
           onClick={() => onChange(o.id)}
           className={cn(
             "rounded-full py-1.5 text-[12px] font-medium transition-colors",
-            value === o.id ? "bg-teal text-white" : "text-ink hover:bg-teal/10",
+            value === o.id ? "bg-accent text-white" : "text-primary hover:bg-accent/10",
           )}
         >
           {o.label}

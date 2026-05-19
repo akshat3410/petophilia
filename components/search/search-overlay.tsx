@@ -70,19 +70,19 @@ export function SearchOverlay({ open, onClose }: Props) {
           open ? "translate-y-0" : "-translate-y-4"
         }`}
       >
-        <div className="flex items-center gap-4 border-b border-ink/10 pb-5">
-          <Search size={22} strokeWidth={1.5} className="text-ink-muted" />
+        <div className="flex items-center gap-4 border-b border-border pb-5">
+          <Search size={22} strokeWidth={1.5} className="text-muted" />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search tins, toys, beds, advice..."
-            className="flex-1 bg-transparent font-serif text-[32px] italic text-ink outline-none placeholder:text-ink-muted/60"
+            className="flex-1 bg-transparent font-serif text-[32px] italic text-primary outline-none placeholder:text-muted/60"
           />
           <button
             onClick={onClose}
             aria-label="Close search"
-            className="grid h-10 w-10 place-items-center rounded-full text-ink transition-colors hover:bg-ink/5"
+            className="grid h-10 w-10 place-items-center rounded-full text-primary transition-colors hover:bg-border/30"
           >
             <X size={20} />
           </button>
@@ -96,7 +96,7 @@ export function SearchOverlay({ open, onClose }: Props) {
                 <button
                   key={s}
                   onClick={() => setQuery(s)}
-                  className="rounded-full border border-ink/10 bg-white px-3.5 py-1.5 text-[13px] text-ink transition-colors hover:border-ink"
+                  className="rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] text-primary transition-colors hover:border-border"
                 >
                   {s}
                 </button>
@@ -109,17 +109,17 @@ export function SearchOverlay({ open, onClose }: Props) {
                 <li key={j.title}>
                   <a
                     href="#"
-                    className="group flex items-start justify-between gap-4 border-b border-ink/10 pb-4"
+                    className="group flex items-start justify-between gap-4 border-b border-border pb-4"
                   >
-                    <div>
-                      <p className="text-[15px] leading-snug text-ink transition-colors group-hover:text-teal">
+                    <span className="block">
+                      <span className="block text-[15px] leading-snug text-primary transition-colors group-hover:text-accent">
                         {j.title}
-                      </p>
-                      <p className="mt-1 font-mono text-[11px] text-ink-muted">{j.read} read</p>
-                    </div>
+                      </span>
+                      <span className="block mt-1 font-mono text-[11px] text-muted">{j.read} read</span>
+                    </span>
                     <ArrowUpRight
                       size={16}
-                      className="mt-1 shrink-0 text-ink-muted transition-colors group-hover:text-teal"
+                      className="mt-1 shrink-0 text-muted transition-colors group-hover:text-accent"
                     />
                   </a>
                 </li>
@@ -137,24 +137,24 @@ export function SearchOverlay({ open, onClose }: Props) {
                   key={p.id}
                   href={`/product/${p.id}`}
                   onClick={onClose}
-                  className="group flex items-center gap-4 rounded-sm border border-transparent bg-white/40 p-3 transition-all hover:-translate-y-0.5 hover:border-ink/10 hover:bg-white hover:shadow-soft-sm"
+                  className="group flex items-center gap-4 rounded-sm border border-transparent bg-white/40 p-3 transition-all hover:-translate-y-0.5 hover:border-border hover:bg-white hover:shadow-soft-sm"
                 >
-                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[6px]">
+                  <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[6px] block">
                     <ProductImage product={p} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="mono-label">/{p.brand}</p>
-                    <p className="mt-0.5 truncate text-[14px] font-medium text-ink">{p.name}</p>
-                  </div>
-                  <p className="font-mono text-[13px] text-ink">{formatPrice(p.price)}</p>
+                  </span>
+                  <span className="min-w-0 flex-1 block">
+                    <span className="mono-label block">/{p.brand}</span>
+                    <span className="mt-0.5 truncate text-[14px] font-medium text-primary block">{p.name}</span>
+                  </span>
+                  <span className="font-mono text-[13px] text-primary block">{formatPrice(p.price)}</span>
                   <ArrowUpRight
                     size={16}
-                    className="text-ink-muted opacity-0 transition-opacity group-hover:opacity-100"
+                    className="text-muted opacity-0 transition-opacity group-hover:opacity-100"
                   />
                 </Link>
               ))}
               {query.trim() && results.length === 0 && (
-                <p className="mt-6 text-[14px] text-ink-muted">
+                <p className="mt-6 text-[14px] text-muted">
                   Nothing matches that — try one of the suggestions.
                 </p>
               )}
@@ -162,12 +162,12 @@ export function SearchOverlay({ open, onClose }: Props) {
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end gap-5 font-mono text-[11px] text-ink-muted">
+        <div className="mt-4 flex justify-end gap-5 font-mono text-[11px] text-muted">
           <span>
-            <kbd className="rounded border border-ink/10 bg-white px-1.5 py-0.5">esc</kbd> close
+            <kbd className="rounded border border-border bg-white px-1.5 py-0.5">esc</kbd> close
           </span>
           <span>
-            <kbd className="rounded border border-ink/10 bg-white px-1.5 py-0.5">↵</kbd> go
+            <kbd className="rounded border border-border bg-white px-1.5 py-0.5">↵</kbd> go
           </span>
         </div>
       </div>

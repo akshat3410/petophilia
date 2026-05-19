@@ -6,53 +6,95 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import { useSession } from "next-auth/react";
 
 interface WishlistContextValue {
   ids: string[];
-  has: (id: string) => boolean;
-  toggle: (id: string) => void;
+  has: (productId: string) => boolean;
+  toggle: (productId: string) => void;
   count: number;
+  loading: boolean;
 }
 
 const WishlistContext = createContext<WishlistContextValue | null>(null);
-
-const STORAGE_KEY = "peto-wish";
+const GUEST_KEY = "peto-wish-guest";
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
+  const { data: session, status } = useSession();
   const [ids, setIds] = useState<string[]>([]);
-  const [hydrated, setHydrated] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const initialized = useRef(false);
 
-  useEffect(() => {
+  // ── Fetch server wishlist ─────────────────────────────────────────────────
+  const fetchServerWishlist = useCallback(async () => {
+    setLoading(true);
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setIds(JSON.parse(raw));
-    } catch {
-      // ignore
-    }
-    setHydrated(true);
+      const res = await fetch("/api/wishlist");
+      const data = await res.json();
+      if (data.success) {
+        setIds((data.data as Array<{ productId: string }>).map((w) => w.productId));
+      }
+    } catch { /* ignore */ }
+    setLoading(false);
   }, []);
 
+  // ── Initialize ─────────────────────────────────────────────────────────────
   useEffect(() => {
-    if (!hydrated) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
-    } catch {
-      // ignore
+    if (status === "loading") return;
+    if (initialized.current) return;
+    initialized.current = true;
+
+    if (session?.user) {
+      fetchServerWishlist();
+    } else {
+      try {
+        const raw = localStorage.getItem(GUEST_KEY);
+        if (raw) setIds(JSON.parse(raw));
+      } catch { /* ignore */ }
     }
-  }, [ids, hydrated]);
+  }, [status, session, fetchServerWishlist]);
 
-  const has = useCallback((id: string) => ids.includes(id), [ids]);
+  // ── Toggle ─────────────────────────────────────────────────────────────────
+  const toggle = useCallback(async (productId: string) => {
+    const isIn = ids.includes(productId);
 
-  const toggle = useCallback((id: string) => {
-    setIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-  }, []);
+    if (!session?.user) {
+      setIds((prev) => {
+        const next = isIn ? prev.filter((x) => x !== productId) : [...prev, productId];
+        try { localStorage.setItem(GUEST_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+        return next;
+      });
+      return;
+    }
+
+    // Optimistic
+    setIds((prev) => isIn ? prev.filter((x) => x !== productId) : [...prev, productId]);
+
+    try {
+      if (isIn) {
+        await fetch(`/api/wishlist/${productId}`, { method: "DELETE" });
+      } else {
+        await fetch("/api/wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId }),
+        });
+      }
+    } catch {
+      // Revert on error
+      setIds((prev) => isIn ? [...prev, productId] : prev.filter((x) => x !== productId));
+    }
+  }, [ids, session]);
+
+  const has = useCallback((productId: string) => ids.includes(productId), [ids]);
 
   const value = useMemo<WishlistContextValue>(
-    () => ({ ids, has, toggle, count: ids.length }),
-    [ids, has, toggle],
+    () => ({ ids, has, toggle, count: ids.length, loading }),
+    [ids, has, toggle, loading]
   );
 
   return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>;

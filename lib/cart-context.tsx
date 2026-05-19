@@ -6,106 +6,233 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
-import type { CartItem, Product } from "@/lib/types";
-import { products } from "@/lib/data";
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
+import { formatPrice } from "@/lib/utils";
+
+export interface CartItemProduct {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  brand: { name: string };
+  images: Array<{ url: string; alt?: string | null }>;
+  unit?: string | null;
+  tint?: string | null;
+}
+
+export interface ServerCartItem {
+  id: string;          // cartItemId
+  productId: string;
+  variantId?: string | null;
+  quantity: number;
+  product: CartItemProduct;
+  variant?: { value: string; priceAdjustment: number } | null;
+}
 
 interface CartContextValue {
-  items: CartItem[];
-  /** Items joined to their product, with bad IDs filtered out. */
-  itemsWithProduct: Array<CartItem & { product: Product }>;
+  items: ServerCartItem[];
   count: number;
   subtotal: number;
-  /** Drawer open state is co-located here so "add to cart" can open the drawer. */
+  loading: boolean;
   drawerOpen: boolean;
   setDrawerOpen: (open: boolean) => void;
-  add: (id: string, qty?: number) => void;
-  updateQty: (id: string, qty: number) => void;
-  remove: (id: string) => void;
-  clear: () => void;
+  add: (productId: string, qty?: number, variantId?: string) => Promise<void>;
+  updateQty: (itemId: string, qty: number) => Promise<void>;
+  remove: (itemId: string) => Promise<void>;
+  clear: () => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
-
-const STORAGE_KEY = "peto-cart";
+const GUEST_KEY = "peto-cart-guest";
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const { data: session, status } = useSession();
+  const [items, setItems] = useState<ServerCartItem[]>([]);
+  const [loading, setLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
+  const initialized = useRef(false);
 
-  // Hydrate from localStorage once on mount.
-  useEffect(() => {
+  // ── Fetch server cart ────────────────────────────────────────────────────
+  const fetchServerCart = useCallback(async () => {
+    setLoading(true);
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const res = await fetch("/api/cart");
+      const data = await res.json();
+      if (data.success) setItems(data.data?.items ?? []);
+    } catch {
+      // ignore — keep existing state
+    }
+    setLoading(false);
+  }, []);
+
+  // ── Guest cart (localStorage) ─────────────────────────────────────────────
+  const loadGuestCart = useCallback(() => {
+    try {
+      const raw = localStorage.getItem(GUEST_KEY);
       if (raw) setItems(JSON.parse(raw));
     } catch {
-      // ignore — treat as empty cart
+      setItems([]);
     }
-    setHydrated(true);
   }, []);
 
-  // Persist after any change — but only after first hydration so we
-  // don't clobber the stored cart with the initial empty array.
-  useEffect(() => {
-    if (!hydrated) return;
+  const saveGuestCart = useCallback((nextItems: ServerCartItem[]) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    } catch {
-      // storage full / disabled — silently skip
+      localStorage.setItem(GUEST_KEY, JSON.stringify(nextItems));
+    } catch { /* ignore */ }
+  }, []);
+
+  // ── Initialize on auth change ─────────────────────────────────────────────
+  useEffect(() => {
+    if (status === "loading") return;
+    if (initialized.current) return;
+    initialized.current = true;
+
+    if (session?.user) {
+      fetchServerCart();
+    } else {
+      loadGuestCart();
     }
-  }, [items, hydrated]);
+  }, [status, session, fetchServerCart, loadGuestCart]);
 
-  const add = useCallback((id: string, qty = 1) => {
-    setItems((prev) => {
-      const existing = prev.find((i) => i.id === id);
-      if (existing) return prev.map((i) => (i.id === id ? { ...i, qty: i.qty + qty } : i));
-      return [...prev, { id, qty }];
-    });
-    setDrawerOpen(true);
-  }, []);
+  // ── Add to cart ──────────────────────────────────────────────────────────
+  const add = useCallback(async (productId: string, qty = 1, variantId?: string) => {
+    if (!session?.user) {
+      // Guest: optimistic update using productId as placeholder
+      setItems((prev) => {
+        const existing = prev.find((i) => i.productId === productId && i.variantId === variantId);
+        if (existing) {
+          const next = prev.map((i) =>
+            i.productId === productId ? { ...i, quantity: i.quantity + qty } : i
+          );
+          saveGuestCart(next);
+          return next;
+        }
+        // Can't enrich without product data in guest mode — show sign-in nudge
+        toast.info("Sign in to save your cart across devices");
+        return prev;
+      });
+      setDrawerOpen(true);
+      return;
+    }
 
-  const updateQty = useCallback((id: string, qty: number) => {
-    setItems((prev) => {
-      if (qty <= 0) return prev.filter((i) => i.id !== id);
-      const existing = prev.find((i) => i.id === id);
-      if (existing) return prev.map((i) => (i.id === id ? { ...i, qty } : i));
-      return [...prev, { id, qty }];
-    });
-  }, []);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, quantity: qty, variantId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setItems(data.data?.items ?? []);
+        setDrawerOpen(true);
+      } else {
+        toast.error(data.error ?? "Couldn't add to cart");
+      }
+    } catch {
+      toast.error("Network error — please try again");
+    }
+    setLoading(false);
+  }, [session, saveGuestCart]);
 
-  const remove = useCallback((id: string) => {
-    setItems((prev) => prev.filter((i) => i.id !== id));
-  }, []);
+  // ── Update quantity ───────────────────────────────────────────────────────
+  const updateQty = useCallback(async (itemId: string, qty: number) => {
+    if (qty <= 0) return remove(itemId);
 
-  const clear = useCallback(() => setItems([]), []);
+    if (!session?.user) {
+      setItems((prev) => {
+        const next = prev.map((i) => i.id === itemId ? { ...i, quantity: qty } : i);
+        saveGuestCart(next);
+        return next;
+      });
+      return;
+    }
+
+    // Optimistic
+    setItems((prev) => prev.map((i) => i.id === itemId ? { ...i, quantity: qty } : i));
+
+    try {
+      const res = await fetch(`/api/cart/${itemId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity: qty }),
+      });
+      if (!res.ok) {
+        fetchServerCart(); // revert
+        toast.error("Couldn't update quantity");
+      }
+    } catch {
+      fetchServerCart();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session, saveGuestCart, fetchServerCart]);
+
+  // ── Remove item ───────────────────────────────────────────────────────────
+  const remove = useCallback(async (itemId: string) => {
+    if (!session?.user) {
+      setItems((prev) => {
+        const next = prev.filter((i) => i.id !== itemId);
+        saveGuestCart(next);
+        return next;
+      });
+      return;
+    }
+
+    setItems((prev) => prev.filter((i) => i.id !== itemId)); // optimistic
+    try {
+      const res = await fetch(`/api/cart/${itemId}`, { method: "DELETE" });
+      if (!res.ok) {
+        fetchServerCart(); // revert
+        toast.error("Couldn't remove item");
+      }
+    } catch {
+      fetchServerCart();
+    }
+  }, [session, saveGuestCart, fetchServerCart]);
+
+  // ── Clear cart ────────────────────────────────────────────────────────────
+  const clear = useCallback(async () => {
+    setItems([]);
+    if (!session?.user) {
+      try { localStorage.removeItem(GUEST_KEY); } catch { /* ignore */ }
+      return;
+    }
+    await fetch("/api/cart", { method: "DELETE" }).catch(() => {});
+  }, [session]);
+
+  const refresh = useCallback(async () => {
+    if (session?.user) await fetchServerCart();
+    else loadGuestCart();
+  }, [session, fetchServerCart, loadGuestCart]);
 
   const value = useMemo<CartContextValue>(() => {
-    const itemsWithProduct = items
-      .map((i) => {
-        const product = products.find((p) => p.id === i.id);
-        return product ? { ...i, product } : null;
-      })
-      .filter((i): i is CartItem & { product: Product } => i !== null);
-
-    const count = itemsWithProduct.reduce((sum, i) => sum + i.qty, 0);
-    const subtotal = itemsWithProduct.reduce((sum, i) => sum + i.product.price * i.qty, 0);
+    const count = items.reduce((s, i) => s + i.quantity, 0);
+    const subtotal = items.reduce((s, i) => {
+      const base = i.product?.price ?? 0;
+      const adj = i.variant?.priceAdjustment ?? 0;
+      return s + (base + adj) * i.quantity;
+    }, 0);
 
     return {
       items,
-      itemsWithProduct,
       count,
       subtotal,
+      loading,
       drawerOpen,
       setDrawerOpen,
       add,
       updateQty,
       remove,
       clear,
+      refresh,
     };
-  }, [items, drawerOpen, add, updateQty, remove, clear]);
+  }, [items, loading, drawerOpen, add, updateQty, remove, clear, refresh]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

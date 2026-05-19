@@ -20,16 +20,16 @@ export function ProductImage({ product, className, large = false }: Props) {
   const toneLight = shade(tone, 0.1);
 
   return (
-    <div
-      className={cn("relative h-full w-full overflow-hidden", className)}
+    <span
+      className={cn("relative h-full w-full overflow-hidden block", className)}
       style={{
         background: `repeating-linear-gradient(${angle}deg, ${toneLight} 0px, ${toneLight} 8px, ${tone} 8px, ${tone} 14px, ${toneDeep} 14px, ${toneDeep} 18px)`,
       }}
       aria-hidden="true"
     >
       {/* Radial vignette */}
-      <div
-        className="absolute inset-0"
+      <span
+        className="absolute inset-0 block"
         style={{
           background:
             "radial-gradient(70% 70% at 50% 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.08) 100%)",
@@ -37,34 +37,34 @@ export function ProductImage({ product, className, large = false }: Props) {
       />
 
       {/* Shape label — top left */}
-      <div
+      <span
         className={cn(
-          "absolute left-3 top-3 rounded-full bg-white/70 px-2.5 py-1 font-mono uppercase tracking-[0.12em] text-ink/60 backdrop-blur-sm",
+          "absolute left-3 top-3 rounded-full bg-white/70 px-2.5 py-1 font-mono uppercase tracking-[0.12em] text-primary/60 backdrop-blur-sm block",
           large ? "text-[11px]" : "text-[9px]",
         )}
       >
         /{product.shape}
-      </div>
+      </span>
 
       {/* Product ID watermark — bottom right */}
-      <div
+      <span
         className={cn(
-          "absolute bottom-3 right-3 font-mono uppercase tracking-[0.12em] text-ink/30",
+          "absolute bottom-3 right-3 font-mono uppercase tracking-[0.12em] text-primary/30 block",
           large ? "text-[10px]" : "text-[9px]",
         )}
       >
         {product.id.toUpperCase()}
-      </div>
+      </span>
 
       {/* Center emoji icon per product shape */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <span className="absolute inset-0 flex items-center justify-center block">
         <span
           style={{ fontSize: large ? 72 : 52, filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))" }}
         >
           {shapeEmoji(product.shape)}
         </span>
-      </div>
-    </div>
+      </span>
+    </span>
   );
 }
 

@@ -1,49 +1,61 @@
 import { testimonials } from "@/lib/data";
-import { Star } from "lucide-react";
+import { Star, Quote, Sparkles } from "lucide-react";
 
 export function Testimonials() {
   return (
-    <section className="bg-white py-16 px-6">
-      <div className="mx-auto max-w-[1400px]">
+    <section className="bg-[#FFF8EC] py-20 px-6 border-t border-[#EAD7C2]/40">
+      <div className="mx-auto max-w-[1280px]">
+        
         {/* Heading */}
-        <div className="mb-10 text-center">
-          <p className="mono-label mb-2">/ happy customers</p>
-          <h2 className="text-[36px] font-black text-ink leading-tight">
-            Tails are Wagging! 🐾
+        <div className="mb-14 text-center">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F7C7C9]/40 border border-[#F7C7C9]/70 text-[11px] font-black uppercase tracking-wider text-[#3A241A] mb-3">
+            <Sparkles size={12} className="text-[#D94F70]" />
+            <span>Parent Stories</span>
+          </div>
+          <h2 className="text-4xl md:text-[44px] font-black text-[#3A241A] font-display leading-tight">
+            Tails Are Wagging!
           </h2>
-          <p className="mt-2 text-[15px] text-ink-muted font-semibold">
-            Don't take our word for it — hear from our fur family.
+          <p className="mt-4 text-base sm:text-lg text-[#7A6253] font-medium max-w-2xl mx-auto">
+            Hear from our community of loving pet parents who trust Pet-o-philia.
           </p>
         </div>
 
         {/* Cards */}
-        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 scrollbar-hide md:grid md:grid-cols-2 md:overflow-visible md:pb-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <figure
               key={t.who}
-              className="w-[85vw] shrink-0 snap-center rounded-2xl bg-[#E0F7FA] p-7 shadow-soft-sm md:w-auto"
+              className="flex flex-col justify-between rounded-[28px] bg-[#FFFCF6] border border-[#EAD7C2] p-8 shadow-[0_8px_24px_rgba(74,47,34,0.04)] hover:shadow-[0_16px_40px_rgba(74,47,34,0.08)] hover:-translate-y-1 transition-all duration-300"
             >
-              {/* Stars */}
-              <div className="mb-4 flex gap-1">
-                {Array.from({ length: 5 }).map((_, s) => (
-                  <Star
-                    key={s}
-                    size={16}
-                    fill="hsl(var(--orange))"
-                    stroke="none"
-                  />
-                ))}
+              {/* Quote Area */}
+              <div className="mb-6">
+                <Quote size={28} className="text-[#C98B5A]/20 mb-4 fill-current" />
+                
+                {/* Stars: Butter Yellow */}
+                <div className="flex gap-1 mb-5">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star
+                      key={s}
+                      size={14}
+                      className="fill-[#F8D66D] text-[#F8D66D]"
+                      strokeWidth={0}
+                    />
+                  ))}
+                </div>
+                
+                <blockquote className="text-[15px] font-bold leading-relaxed text-[#3A241A]">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
               </div>
-              <blockquote className="text-[18px] font-bold leading-[1.4] text-ink">
-                "{t.quote}"
-              </blockquote>
-              <figcaption className="mt-5 flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-full bg-teal text-[16px] text-white font-black">
+
+              {/* Figcaption */}
+              <figcaption className="flex items-center gap-4 border-t border-[#EAD7C2]/50 pt-6 mt-auto">
+                <div className="grid h-11 w-11 place-items-center rounded-full bg-[#4A2F22] text-sm text-[#FFF8EC] font-black shrink-0 shadow-sm">
                   {t.who.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-[14px] font-black text-ink">{t.who}</p>
-                  <p className="text-[12px] font-semibold text-ink-muted">{t.pet}</p>
+                  <p className="text-sm font-black text-[#3A241A]">{t.who}</p>
+                  <p className="text-xs font-bold text-[#7A6253] mt-0.5">{t.pet}</p>
                 </div>
               </figcaption>
             </figure>

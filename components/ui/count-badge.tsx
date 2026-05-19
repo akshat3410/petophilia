@@ -16,7 +16,7 @@ export function CountBadge({
     <span
       className={cn(
         "absolute -right-2 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[10px] font-medium text-white",
-        light ? "bg-orange" : "bg-teal",
+        light ? "bg-offer" : "bg-accent",
         "font-mono",
         className,
       )}

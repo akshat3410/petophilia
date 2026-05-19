@@ -1,175 +1,330 @@
 "use client";
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { PawPrint, Gift, Heart } from 'lucide-react';
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight, Star, Sparkles } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { cn } from "@/lib/utils";
+
+/* ─── Slide Data ────────────────────────────────────────────────────────────── */
+const SLIDES = [
+  {
+    id: 1,
+    badge: "Fresh picks for happy pets 🐾",
+    headline: (
+      <>
+        Good Stuff for <br />
+        <span className="text-[#C98B5A] font-display italic">Very Good Pets</span>
+      </>
+    ),
+    subheading: "Shop food, toys, treats, grooming, and everyday essentials chosen for pets who deserve the good stuff.",
+    primaryCta: "Shop the Good Stuff",
+    secondaryCta: "Explore Categories",
+    image: "/images/hero/slide1.png",
+  },
+  {
+    id: 2,
+    badge: "Mealtime made better 🍽️",
+    headline: (
+      <>
+        Better Food, <br />
+        <span className="text-[#7AA95C] font-display italic">Happier Tails</span>
+      </>
+    ),
+    subheading: "Find trusted meals, snacks, and wellness picks for dogs and cats of every age.",
+    primaryCta: "Browse Food & Treats",
+    secondaryCta: "View Best Sellers",
+    image: "/images/hero/slide2.png",
+  },
+  {
+    id: 3,
+    badge: "Playtime favorites 🧸",
+    headline: (
+      <>
+        Toys, Treats & <br />
+        <span className="text-[#D94F70] font-display italic">Tiny Joys</span>
+      </>
+    ),
+    subheading: "From chew toys to cozy accessories, discover little things that make every pet day brighter.",
+    primaryCta: "Shop New Toys",
+    secondaryCta: "See Deals",
+    image: "/images/hero/slide3.png",
+  },
+  {
+    id: 4,
+    badge: "Grooming & Pampering 🧼",
+    headline: (
+      <>
+        Fluffy, Fresh & <br />
+        <span className="text-[#4A2F22] font-display italic">Photo-Ready</span>
+      </>
+    ),
+    subheading: "Vet-approved shampoos, soothing balms, and gentle brushes for a clean coat and healthy skin.",
+    primaryCta: "Browse Grooming",
+    secondaryCta: "Best Sellers",
+    image: "/images/hero/slide4.png",
+  },
+  {
+    id: 5,
+    badge: "Cozy Comforts 🛌",
+    headline: (
+      <>
+        Sweet Dreams & <br />
+        <span className="text-[#C98B5A] font-display italic">Soft Beds</span>
+      </>
+    ),
+    subheading: "Orthopedic mattresses, snuggly blankets, and safe spaces designed for the ultimate beauty sleep.",
+    primaryCta: "Shop Beds",
+    secondaryCta: "Cozy Blankets",
+    image: "/images/hero/slide5.png",
+  },
+];
 
 export function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  });
-  
-  // Parallax effects
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
-  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
-
-  return (
-    <section ref={ref} className="hero-section relative bg-[#1B9B95] overflow-hidden min-h-screen flex items-center font-sans">
-      
-      {/* 1. ANIMATED BACKGROUND VISUAL & EFFECTS */}
-      <motion.div 
-        className="absolute inset-0 z-0 w-full h-full"
-        style={{ y: backgroundY }}
-      >
-        <motion.div
-          animate={{ y: [-6, 6, -6] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 w-full h-full"
-        >
-          <Image 
-            src="/images/hero-pet.png" 
-            alt="Happy Husky and Cat" 
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[70%_bottom] md:object-[80%_bottom] lg:object-[95%_center] contrast-105 saturate-[1.05]"
-          />
-        </motion.div>
-
-        {/* Soft Geometric Circles & Abstract Depth */}
-        <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-white/[0.04] blur-3xl pointer-events-none" />
-        <div className="absolute bottom-[-10%] right-[10%] w-[40vw] h-[40vw] rounded-full bg-[#FF7A45]/[0.05] blur-[100px] pointer-events-none" />
-        <div className="absolute top-[20%] right-[30%] w-[20vw] h-[20vw] rounded-full bg-white/[0.02] blur-[80px] pointer-events-none" />
-        
-        {/* Subtle glowing particles / bokeh on the right */}
-        <motion.div 
-          animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }} 
-          transition={{ duration: 4, repeat: Infinity }}
-          className="absolute right-[15%] top-[25%] w-10 h-10 rounded-full bg-white/20 blur-xl pointer-events-none" 
-        />
-        <motion.div 
-          animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.2, 1] }} 
-          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-          className="absolute right-[25%] bottom-[35%] w-16 h-16 rounded-full bg-[#FF7A45]/30 blur-2xl pointer-events-none" 
-        />
-        
-        {/* Premium Matte Texture (Noise) */}
-        <div className="absolute inset-0 z-0 pointer-events-none mix-blend-overlay opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
-
-        {/* Gradient overlays to blend text area */}
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#1B9B95] via-[#1B9B95]/85 to-transparent w-[65%] hidden lg:block" />
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#1B9B95] via-[#1B9B95]/80 to-transparent h-[70%] lg:hidden" />
-      </motion.div>
-      
-      {/* 2. TEXT CONTENT (LEFT ALIGNED, 5 COLUMNS) */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[100px] h-full flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 w-full">
-          
-          <motion.div 
-            className="lg:col-span-5 w-full max-w-[480px] text-left pt-[100px] lg:pt-[120px] pb-[60px]"
-            style={{ y: textY, opacity }}
-          >
-            {/* Headlines */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="tracking-[-0.5px] leading-[1.1] drop-shadow-md"
-            >
-              <span className="block text-[32px] md:text-[48px] lg:text-[56px] font-medium text-[#FAFAFA]">
-                Make Every Day
-              </span>
-              <span className="block text-[40px] md:text-[56px] lg:text-[68px] font-bold text-[#FF7A45] drop-shadow-[0_2px_10px_rgba(255,122,69,0.2)] mt-1">
-                a Happy Tail Day
-              </span>
-            </motion.h1>
-            
-            {/* Body Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-[#FAFAFA] text-[16px] md:text-[18px] font-light leading-[1.6] tracking-[0.2px] max-w-[440px] mt-[24px] drop-shadow-sm"
-            >
-              Your curated source for everything fur baby. Premium supplies, expert care, and joy, delivered.
-            </motion.p>
-            
-            {/* Value Proposition Block */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="mt-[32px] flex flex-col gap-4"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#11706B]/40 text-white shadow-sm backdrop-blur-md border border-white/10">
-                  <PawPrint size={18} strokeWidth={2.5} />
-                </div>
-                <span className="text-[16px] font-medium text-[#FAFAFA] drop-shadow-sm tracking-wide">Expert Curated</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#11706B]/40 text-white shadow-sm backdrop-blur-md border border-white/10">
-                  <Gift size={18} strokeWidth={2.5} />
-                </div>
-                <span className="text-[16px] font-medium text-[#FAFAFA] drop-shadow-sm tracking-wide">Fast Shipping</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#11706B]/40 text-white shadow-sm backdrop-blur-md border border-white/10">
-                  <Heart size={18} strokeWidth={2.5} />
-                </div>
-                <span className="text-[16px] font-medium text-[#FAFAFA] drop-shadow-sm tracking-wide">Trusted Care</span>
-              </div>
-            </motion.div>
-
-            {/* CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="mt-[40px]"
-            >
-              <CTAButton />
-            </motion.div>
-            
-          </motion.div>
-          
-        </div>
-      </div>
-      
-    </section>
+  const [mounted, setMounted] = useState(false);
+  const autoplay = useRef(Autoplay({ delay: 6000, stopOnInteraction: true }));
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, duration: 45 },
+    [autoplay.current]
   );
-}
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-// PRIMARY CTA BUTTON
-function CTAButton() {
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi]);
+
+  // SSR & Initial Hydration Fallback: Render static first slide for zero mismatches
+  if (!mounted) {
+    const firstSlide = SLIDES[0];
+    return (
+      <section className="relative overflow-hidden bg-[#FFFCF6] py-8 lg:py-12 px-4 sm:px-6 lg:px-8 font-sans font-medium">
+        <div className="mx-auto max-w-[1320px] rounded-[36px] bg-[#FFFCF6] border border-[#EAD7C2] shadow-[0_18px_50px_rgba(74,47,34,0.06)] overflow-hidden relative min-h-[580px] lg:min-h-[640px] flex items-center">
+          <div className="w-full px-6 sm:px-12 lg:px-16 py-12 lg:py-16 flex flex-col lg:flex-row items-center justify-between gap-8 z-10">
+            {/* Left Column: Content */}
+            <div className="w-full lg:w-[55%] flex flex-col justify-center text-left">
+              <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#4A2F22]/20 bg-[#4A2F22]/5 text-[#4A2F22] text-xs font-black uppercase tracking-wider w-max mb-6 shadow-sm">
+                <Sparkles size={14} className="text-[#C98B5A]" />
+                <span>{firstSlide.badge}</span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black tracking-tight text-[#3A241A] leading-[1.1]">
+                {firstSlide.headline}
+              </h1>
+              
+              <p className="text-[#4A2F22]/90 text-base sm:text-lg font-medium leading-relaxed mt-6">
+                {firstSlide.subheading}
+              </p>
+              
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link 
+                  href="/category/all" 
+                  className="inline-flex items-center justify-center rounded-full bg-[#4A2F22] px-8 py-4 text-base font-black text-[#FFF8EC] shadow-[0_10px_20px_rgba(74,47,34,0.12)] hover:bg-[#3A241A] hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  {firstSlide.primaryCta}
+                </Link>
+                <Link 
+                  href="/#categories" 
+                  className="inline-flex items-center justify-center rounded-full bg-white/60 border border-[#4A2F22]/30 px-8 py-4 text-base font-black text-[#4A2F22] shadow-sm hover:bg-[#4A2F22]/10 hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  {firstSlide.secondaryCta}
+                </Link>
+              </div>
+
+              <div className="mt-10 flex items-center gap-5 pt-6 border-t border-[#4A2F22]/10">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map((num) => (
+                    <div key={num} className="relative w-8 h-8 rounded-full border-2 border-[#FFFCF6] overflow-hidden bg-[#F2DEC3]">
+                      <Image 
+                        src={`/images/hero/slide1.png`} 
+                        alt="User" 
+                        fill
+                        className="object-cover scale-150"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div className="flex gap-0.5 text-[#C98B5A]">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} className="fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-xs font-bold text-[#4A2F22]/80 mt-0.5">
+                    Loved by <span className="text-[#3A241A] font-black">500+ happy pet parents</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Image in elegant frame */}
+            <div className="w-full lg:w-[42%] h-[320px] lg:h-[480px] relative rounded-[32px] overflow-hidden bg-[#F2DEC3]/25 border border-[#EAD7C2]/50 shadow-[0_12px_30px_rgba(74,47,34,0.04)]">
+              <Image 
+                src={firstSlide.image} 
+                alt={firstSlide.badge} 
+                fill
+                priority
+                className="object-cover w-full h-full"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Interactive Carousel: Renders once mounted on the client
   return (
-    <Link href="/category/all" passHref legacyBehavior>
-      <motion.a
-        className="group relative inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-br from-[#0F5A57] to-[#083D3A] px-10 py-[18px] text-[18px] font-bold tracking-[0.3px] text-[#FAFAFA] shadow-[0_8px_25px_rgba(8,61,58,0.6)] overflow-hidden border border-[#FF7A45]/30 ring-1 ring-[#FF7A45]/10"
-        whileHover={{ 
-          scale: 1.04,
-          boxShadow: '0 15px 35px rgba(8, 61, 58, 0.8), 0 0 20px rgba(255, 122, 69, 0.3)'
-        }}
-        whileTap={{ scale: 0.98 }}
-        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-      >
-        {/* Subtle interior glow */}
-        <div className="absolute inset-0 rounded-full box-shadow-inner shadow-[inset_0_1px_2px_rgba(255,255,255,0.15)]" />
+    <section className="relative overflow-hidden bg-[#FFFCF6] py-8 lg:py-12 px-4 sm:px-6 lg:px-8 font-sans font-medium">
+      
+      {/* ── Outer Hero Card: Rounded 36px with Soft Warm Shadow ── */}
+      <div className="mx-auto max-w-[1320px] rounded-[36px] bg-[#FFFCF6] border border-[#EAD7C2] shadow-[0_18px_50px_rgba(74,47,34,0.06)] overflow-hidden relative min-h-[580px] lg:min-h-[640px] flex items-center">
         
-        {/* Shimmer sweep animation */}
-        <motion.div 
-          className="absolute inset-0 z-0 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-          animate={{ x: ['-200%', '300%'] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-        />
-        
-        <span className="relative z-10 drop-shadow-md">Shop Happy Essentials</span>
-      </motion.a>
-    </Link>
+        {/* Embla Viewport */}
+        <div className="overflow-hidden w-full h-full" ref={emblaRef}>
+          <div className="flex h-full touch-pan-y">
+            {SLIDES.map((slide, index) => (
+              <div 
+                key={slide.id} 
+                className="flex-[0_0_100%] min-w-0 w-full min-h-[580px] lg:min-h-[640px] flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden bg-[#FFFCF6] px-6 sm:px-12 lg:px-16 py-12 lg:py-16"
+              >
+                
+                {/* ── Left Column: Slide Content ── */}
+                <div 
+                  className={cn(
+                    "w-full lg:w-[55%] flex flex-col justify-center text-left z-10 transition-all duration-700 ease-out",
+                    selectedIndex === index ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+                  )}
+                >
+                  {/* Small Sticker Badge */}
+                  <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#4A2F22]/20 bg-[#4A2F22]/5 text-[#4A2F22] text-xs font-black uppercase tracking-wider w-max mb-6 shadow-sm">
+                    <Sparkles size={14} className="text-[#C98B5A]" />
+                    <span>{slide.badge}</span>
+                  </div>
+
+                  {/* Editorial Headline */}
+                  <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black tracking-tight text-[#3A241A] leading-[1.1]">
+                    {slide.headline}
+                  </h1>
+                  
+                  {/* Subheading */}
+                  <p className="text-[#4A2F22]/90 text-base sm:text-lg font-medium leading-relaxed mt-6">
+                    {slide.subheading}
+                  </p>
+                  
+                  {/* CTA Buttons */}
+                  <div className="mt-8 flex flex-wrap gap-4">
+                    <Link 
+                      href="/category/all" 
+                      className="inline-flex items-center justify-center rounded-full bg-[#4A2F22] px-8 py-4 text-base font-black text-[#FFF8EC] shadow-[0_10px_20px_rgba(74,47,34,0.12)] hover:bg-[#3A241A] hover:-translate-y-0.5 transition-all duration-300"
+                    >
+                      {slide.primaryCta}
+                    </Link>
+                    <Link 
+                      href="/#categories" 
+                      className="inline-flex items-center justify-center rounded-full bg-white/60 border border-[#4A2F22]/30 px-8 py-4 text-base font-black text-[#4A2F22] shadow-sm hover:bg-[#4A2F22]/10 hover:-translate-y-0.5 transition-all duration-300"
+                    >
+                      {slide.secondaryCta}
+                    </Link>
+                  </div>
+
+                  {/* Trust Microcopy - Slide 1 only */}
+                  {index === 0 && (
+                    <div className="mt-10 flex items-center gap-5 pt-6 border-t border-[#4A2F22]/10">
+                      <div className="flex -space-x-2">
+                        {[1, 2, 3].map((num) => (
+                          <div key={num} className="relative w-8 h-8 rounded-full border-2 border-[#FFFCF6] overflow-hidden bg-[#F2DEC3]">
+                            <Image 
+                              src={`/images/hero/slide1.png`} 
+                              alt="User" 
+                              fill
+                              className="object-cover scale-150"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <div>
+                        <div className="flex gap-0.5 text-[#C98B5A]">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={14} className="fill-current" />
+                          ))}
+                        </div>
+                        <p className="text-xs font-bold text-[#4A2F22]/80 mt-0.5">
+                          Loved by <span className="text-[#3A241A] font-black">500+ happy pet parents</span>
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* ── Right Column: Premium Image Card ── */}
+                <div 
+                  className={cn(
+                    "w-full lg:w-[42%] h-[320px] lg:h-[480px] relative rounded-[32px] overflow-hidden bg-[#F2DEC3]/25 border border-[#EAD7C2]/50 shadow-[0_12px_30px_rgba(74,47,34,0.04)] transition-all duration-700 ease-out",
+                    selectedIndex === index ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+                  )}
+                >
+                  <Image 
+                    src={slide.image} 
+                    alt={slide.badge} 
+                    fill
+                    priority={index === 0}
+                    className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Carousel Controls: Rounded Soft Buttons */}
+        <div className="hidden sm:flex absolute right-8 bottom-8 gap-2.5 z-20">
+          <button
+            className="w-11 h-11 rounded-full bg-[#FFFCF6]/80 border border-[#EAD7C2] flex items-center justify-center text-[#4A2F22] shadow-sm hover:bg-[#F7EAD8]/80 hover:text-[#3A241A] active:scale-95 transition-all backdrop-blur-sm"
+            onClick={scrollPrev}
+            aria-label="Previous slide"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            className="w-11 h-11 rounded-full bg-[#FFFCF6]/80 border border-[#EAD7C2] flex items-center justify-center text-[#4A2F22] shadow-sm hover:bg-[#F7EAD8]/80 hover:text-[#3A241A] active:scale-95 transition-all backdrop-blur-sm"
+            onClick={scrollNext}
+            aria-label="Next slide"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 lg:left-16 lg:translate-x-0 flex gap-2 z-20">
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollTo(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={cn(
+                "h-2.5 rounded-full transition-all duration-300",
+                selectedIndex === i ? "w-8 bg-[#4A2F22]" : "w-2.5 bg-[#4A2F22]/25 hover:bg-[#4A2F22]/50"
+              )}
+            />
+          ))}
+        </div>
+
+      </div>
+    </section>
   );
 }
