@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     // Stock check
     const availableStock = variantId
-      ? (product.variants.find((v) => v.id === variantId)?.stock ?? 0)
+      ? (product.variants.find((v: any) => v.id === variantId)?.stock ?? 0)
       : product.stock;
     if (availableStock < quantity) return err("Insufficient stock", 422, "OUT_OF_STOCK");
 
