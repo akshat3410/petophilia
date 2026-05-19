@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     if (!valid) return err("Payment verification failed", 422, "SIGNATURE_MISMATCH");
 
     // All good — mark paid, reduce stock, clear cart in transaction
-    await db.$transaction(async (tx) => {
+    await db.$transaction(async (tx: any) => {
       // Mark order paid
       await tx.order.update({
         where: { id: orderId },
