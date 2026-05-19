@@ -2,12 +2,14 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { Sparkles } from "lucide-react";
 
+import { Brand } from "@prisma/client";
+
 export async function BrandRow() {
-  const brands = await db.brand.findMany({
+  const brands: Brand[] = await db.brand.findMany({
     where: { isActive: true },
     orderBy: { name: "asc" },
     take: 5,
-  }).catch(() => []);
+  }).catch(() => [] as Brand[]);
 
   if (brands.length === 0) return null;
 
