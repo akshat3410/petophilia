@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { razorpay } from "@/lib/razorpay";
+import { getRazorpay } from "@/lib/razorpay";
 import { ok, err, requireAuth } from "@/lib/api";
 import { z } from "zod";
 
@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
     if (order.paymentStatus === "PAID") return err("Order already paid", 422);
 
     // Create Razorpay order — amount in paise
+    const razorpay = getRazorpay();
     const rzpOrder = await razorpay.orders.create({
       amount: order.total,
       currency: "INR",
