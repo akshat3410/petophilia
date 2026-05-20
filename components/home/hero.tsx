@@ -22,7 +22,7 @@ const SLIDES = [
     subheading: "Shop food, toys, treats, grooming, and everyday essentials chosen for pets who deserve the good stuff.",
     primaryCta: "Shop the Good Stuff",
     secondaryCta: "Explore Categories",
-    image: "/images/hero/slide1.png",
+    image: "/images/hero/slide1.webp",
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ const SLIDES = [
     subheading: "Find trusted meals, snacks, and wellness picks for dogs and cats of every age.",
     primaryCta: "Browse Food & Treats",
     secondaryCta: "View Best Sellers",
-    image: "/images/hero/slide2.png",
+    image: "/images/hero/slide2.webp",
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const SLIDES = [
     subheading: "From chew toys to cozy accessories, discover little things that make every pet day brighter.",
     primaryCta: "Shop New Toys",
     secondaryCta: "See Deals",
-    image: "/images/hero/slide3.png",
+    image: "/images/hero/slide3.webp",
   },
   {
     id: 4,
@@ -64,7 +64,7 @@ const SLIDES = [
     subheading: "Vet-approved shampoos, soothing balms, and gentle brushes for a clean coat and healthy skin.",
     primaryCta: "Browse Grooming",
     secondaryCta: "Best Sellers",
-    image: "/images/hero/slide4.png",
+    image: "/images/hero/slide4.webp",
   },
   {
     id: 5,
@@ -78,7 +78,7 @@ const SLIDES = [
     subheading: "Orthopedic mattresses, snuggly blankets, and safe spaces designed for the ultimate beauty sleep.",
     primaryCta: "Shop Beds",
     secondaryCta: "Cozy Blankets",
-    image: "/images/hero/slide5.png",
+    image: "/images/hero/slide5.webp",
   },
 ];
 
@@ -149,7 +149,7 @@ export function Hero() {
                   {[1, 2, 3].map((num) => (
                     <div key={num} className="relative w-8 h-8 rounded-full border-2 border-[#FFFCF6] overflow-hidden bg-[#F2DEC3]">
                       <Image 
-                        src={`/images/hero/slide1.png`} 
+                        src={`/images/avatar-placeholder.webp`} 
                         alt="User" 
                         fill
                         className="object-cover scale-150"
@@ -248,7 +248,7 @@ export function Hero() {
                         {[1, 2, 3].map((num) => (
                           <div key={num} className="relative w-8 h-8 rounded-full border-2 border-[#FFFCF6] overflow-hidden bg-[#F2DEC3]">
                             <Image 
-                              src={`/images/hero/slide1.png`} 
+                              src={`/images/avatar-placeholder.webp`} 
                               alt="User" 
                               fill
                               className="object-cover scale-150"
@@ -282,6 +282,7 @@ export function Hero() {
                     alt={slide.badge} 
                     fill
                     priority={index === 0}
+                    loading={index === 0 ? "eager" : "lazy"}
                     className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
                   />
                 </div>

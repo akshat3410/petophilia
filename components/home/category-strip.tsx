@@ -5,14 +5,14 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 // Fallback images if db image is missing
 const CATEGORY_IMAGES: Record<string, string> = {
-  dog: "/images/categories/dog.png",
-  cat: "/images/categories/cat.png",
-  treats: "/images/hero-pet.png",
-  "vet-care": "/images/hero-pet.png",
-  toys: "/images/hero-pet.png",
-  accessories: "/images/categories/accessories.png",
-  food: "/images/categories/food.png",
-  home: "/images/hero-pet.png",
+  dog: "/images/categories/dog.webp",
+  cat: "/images/categories/cat.webp",
+  treats: "/images/hero-pet.webp",
+  "vet-care": "/images/hero-pet.webp",
+  toys: "/images/hero-pet.webp",
+  accessories: "/images/categories/accessories.webp",
+  food: "/images/categories/food.webp",
+  home: "/images/hero-pet.webp",
 };
 
 // Playful premium pastel category styling map
@@ -83,7 +83,7 @@ export async function CategoryStrip() {
                 {/* Object Image Crop Container */}
                 <div className="relative w-full aspect-square rounded-[28px] overflow-hidden bg-white/40 border border-[#EAD7C2]/40 isolation-isolate">
                   <Image 
-                    src={c.imageUrl || CATEGORY_IMAGES[c.slug] || "/images/hero-pet.png"} 
+                    src={c.imageUrl || CATEGORY_IMAGES[c.slug] || "/images/hero-pet.webp"} 
                     alt={c.name} 
                     fill
                     style={{ objectFit: "cover" }}

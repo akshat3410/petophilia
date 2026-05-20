@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Heart, ShoppingBag } from 'lucide-react';
 
 export function ProductCard({ product, offset }: { product: any; offset?: number }) {
@@ -17,12 +17,7 @@ export function ProductCard({ product, offset }: { product: any; offset?: number
   };
 
   return (
-    <motion.div
-      className="block relative group"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-    >
+    <div className="block relative group animate-fade-up">
       <div className="flex flex-col h-full bg-[#FFFCF6] rounded-[28px] border border-[#EAD7C2] overflow-hidden shadow-[0_8px_24px_rgba(74,47,34,0.05)] transition-all duration-300 hover:shadow-[0_16px_36px_rgba(74,47,34,0.08)] hover:-translate-y-1 hover:border-[#C98B5A] relative">
         <Link href={`/product/${product.id}`} className="absolute inset-0 z-0" aria-label={`View ${product.name}`} />
         
@@ -42,19 +37,20 @@ export function ProductCard({ product, offset }: { product: any; offset?: number
         
         {/* Soft Pastel Image Area */}
         <div className="relative w-full aspect-[4/3] bg-[#FFF8EC] p-6 overflow-hidden flex items-center justify-center border-b border-[#EAD7C2]/40">
-          <motion.img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-contain mix-blend-multiply"
-            onLoad={() => setImageLoaded(true)}
-            initial={{ scale: 1.1, opacity: 0 }}
-            animate={{ 
-              scale: imageLoaded ? 1 : 1.1,
-              opacity: imageLoaded ? 1 : 0
-            }}
-            whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.6 }}
-          />
+          {product.image ? (
+            <div className="relative w-full h-full">
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 300px"
+                className="object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center text-4xl opacity-20 select-none">🐾</div>
+          )}
           
           {/* Wishlist Button: Cream rounded with Cocoa icon */}
           <button
@@ -92,9 +88,8 @@ export function ProductCard({ product, offset }: { product: any; offset?: number
             </button>
           </div>
         </div>
-
       </div>
-    </motion.div>
+    </div>
   );
 }
 

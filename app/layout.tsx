@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Nunito, Space_Mono } from "next/font/google";
+import { Fraunces, Plus_Jakarta_Sans, Space_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import "../styles/design-system.css";
@@ -14,10 +14,17 @@ const SITE_URL = "https://petophilia.in";
 const SITE_NAME = "Pet-o-philia";
 
 
-const nunito = Nunito({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-nunito",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-fraunces",
+  weight: ["600", "700", "800"],
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -173,7 +180,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-IN"
-      className={`${nunito.variable} ${space.variable} antialiased tracking-tight`}
+      className={`${jakarta.variable} ${fraunces.variable} ${space.variable} antialiased tracking-tight`}
     >
       <body>
         {/* JSON-LD Structured Data */}

@@ -36,6 +36,17 @@ export function Header() {
     });
   }, [scrollY]);
 
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
     <>
       {/* Announcement Bar: Cocoa Background, Cream Text */}
@@ -64,7 +75,7 @@ export function Header() {
         >
           {/* Logo */}
           <Link href="/" className="shrink-0 flex items-center gap-2">
-            <img src="/logo.png" alt="Pet-o-philia Logo" className="h-8 lg:h-9 w-auto object-contain" />
+            <img src="/logo.webp" alt="Pet-o-philia Logo" className="h-8 lg:h-9 w-auto object-contain" />
             <span className="block leading-none">
               <span className="block text-[18px] lg:text-[20px] font-black text-[#3A241A] tracking-tight font-display">
                 Pet-o-philia
@@ -185,48 +196,52 @@ export function Header() {
           </div>
         </motion.div>
 
-        {/* Mobile Nav */}
-        {mobileOpen && (
-          <div className="border-t border-[#EAD7C2] bg-[#FFFCF6] px-6 py-4 lg:hidden">
-            <nav className="flex flex-col gap-3">
-              {/* Mobile Account / Wishlist */}
-              <div className="flex gap-6 mb-2 pb-4 border-b border-[#EAD7C2]">
-                <Link
-                  href="/wishlist"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 text-[15px] font-bold text-[#3A241A] hover:text-[#C98B5A]"
-                >
-                  <Heart size={18} /> Wishlist ({count})
-                </Link>
-                <Link
-                  href="/account"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 text-[15px] font-bold text-[#3A241A] hover:text-[#C98B5A]"
-                >
-                  <User size={18} /> Account
-                </Link>
-              </div>
-              {/* Main Links */}
-              {NAV.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-[15px] font-bold text-[#3A241A] hover:text-[#C98B5A]"
-                >
-                  {item.label}
-                </Link>
-              ))}
+        {/* Mobile Nav Drawer: GPU-accelerated smooth slide overlay without layout shifts */}
+        <div 
+          className={`absolute left-0 right-0 top-full border-t border-[#EAD7C2] bg-[#FFFCF6] px-6 py-6 shadow-soft-lg transition-all duration-300 ease-in-out lg:hidden origin-top z-40 ${
+            mobileOpen 
+              ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto" 
+              : "opacity-0 scale-y-95 -translate-y-2 pointer-events-none"
+          }`}
+        >
+          <nav className="flex flex-col gap-4">
+            {/* Mobile Account / Wishlist with touch-friendly sizes */}
+            <div className="flex gap-6 mb-2 pb-4 border-b border-[#EAD7C2]">
               <Link
-                href="/category/treats"
+                href="/wishlist"
                 onClick={() => setMobileOpen(false)}
-                className="inline-block w-fit rounded-full bg-[#4A2F22] px-5 py-2 text-[13px] font-bold text-[#FFF8EC] shadow-soft-sm transition-all hover:bg-[#6B4636] active:scale-95"
+                className="flex items-center gap-2 text-[15px] font-bold text-[#3A241A] hover:text-[#C98B5A] py-2"
               >
-                Shop Treats
+                <Heart size={18} /> Wishlist ({count})
               </Link>
-            </nav>
-          </div>
-        )}
+              <Link
+                href="/account"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 text-[15px] font-bold text-[#3A241A] hover:text-[#C98B5A] py-2"
+              >
+                <User size={18} /> Account
+              </Link>
+            </div>
+            {/* Main Links */}
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="text-[15px] font-bold text-[#3A241A] hover:text-[#C98B5A] py-1.5"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/category/treats"
+              onClick={() => setMobileOpen(false)}
+              className="inline-block w-fit rounded-full bg-[#4A2F22] px-6 py-3 text-[13px] font-bold text-[#FFF8EC] shadow-soft-sm transition-all hover:bg-[#6B4636] active:scale-95 mt-2"
+            >
+              Shop Treats
+            </Link>
+          </nav>
+        </div>
       </motion.header>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />

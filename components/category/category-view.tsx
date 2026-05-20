@@ -60,24 +60,26 @@ export function CategoryView({ category, products }: Props) {
       <section className="mx-auto max-w-[1400px] px-8 py-12">
         {/* Floating filter panel */}
         <div className="sticky top-[84px] z-30 -mx-4 mb-10 rounded-full border border-accent/20 bg-white/95 px-4 py-3 shadow-soft-sm backdrop-blur-md">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="mono-label shrink-0">/brand</span>
-            <div className="flex flex-wrap gap-2">
-              <Pill active={brand === null} onClick={() => setBrand(null)}>
-                All
-              </Pill>
-              {brands.map((b) => (
-                <Pill key={b.id} active={brand === b.name} onClick={() => setBrand(b.name)}>
-                  {b.name}
+          <div className="flex items-center justify-between gap-3 overflow-hidden">
+            <div className="flex items-center gap-3 overflow-hidden flex-1">
+              <span className="mono-label shrink-0">/brand</span>
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 shrink-0 -my-1 max-w-[calc(100vw-180px)] sm:max-w-none md:flex-wrap">
+                <Pill active={brand === null} onClick={() => setBrand(null)}>
+                  All
                 </Pill>
-              ))}
+                {brands.map((b) => (
+                  <Pill key={b.id} active={brand === b.name} onClick={() => setBrand(b.name)}>
+                    {b.name}
+                  </Pill>
+                ))}
+              </div>
             </div>
-            <div className="ml-auto flex items-center gap-3">
-              <span className="mono-label">/sort</span>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="mono-label hidden sm:inline">/sort</span>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as (typeof SORTS)[number])}
-                className="rounded-full border border-border bg-white px-4 py-2 text-sm text-primary outline-none"
+                className="rounded-full border border-border bg-white px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-primary outline-none"
               >
                 {SORTS.map((s) => (
                   <option key={s}>{s}</option>

@@ -43,7 +43,7 @@ export function PromoBanner() {
             <div className="relative h-[350px] md:h-[500px] w-full order-1 md:order-2 flex items-center justify-center p-6 md:p-10">
               <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] rounded-full overflow-hidden bg-[#FFFCF6] border-4 border-[#EAD7C2]/80 shadow-[0_16px_36px_rgba(74,47,34,0.08)] isolation-isolate">
                 <Image 
-                  src="/images/winter-collection.png" 
+                  src="/images/winter-collection.webp" 
                   alt="Cozy Winter Collection" 
                   fill
                   style={{ objectFit: "cover" }}
