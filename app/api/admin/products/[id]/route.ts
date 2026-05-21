@@ -35,7 +35,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       where: { id: params.id },
       data: {
         ...data,
-        tags: Array.isArray(data.tags) ? data.tags.join(',') : (data.tags || ""),
         ...(images
           ? {
               images: {

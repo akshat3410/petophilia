@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
@@ -32,7 +31,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <Image width={50} height={50} src="/logo.webp" alt="Pet-o-philia Logo" className="mx-auto mb-4 h-12 w-auto object-contain" />
+          <img src="/logo.webp" alt="Pet-o-philia Logo" className="mx-auto mb-4 h-12 w-auto object-contain" />
           <h1 className="text-2xl font-bold text-gray-900">Admin Access</h1>
           <p className="mt-1 text-sm text-gray-500">Pet-o-philia Control Panel</p>
         </div>

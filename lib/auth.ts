@@ -4,7 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { db } from "@/lib/db";
-type Role = "CUSTOMER" | "ADMIN";
+import type { Role } from "@prisma/client";
 
 const credentialsSchema = z.object({
   email: z.string().email(),

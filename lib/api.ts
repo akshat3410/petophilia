@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-type Role = "CUSTOMER" | "ADMIN";
+import type { Role } from "@prisma/client";
 
 // ── Consistent API response shapes ────────────────────────────────────────
 export function ok<T>(data: T, status = 200) {

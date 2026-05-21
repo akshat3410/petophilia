@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     const limit = 20;
 
     const where: Record<string, unknown> = {};
-    if (search) where.name = { contains: search };
+    if (search) where.name = { contains: search, mode: "insensitive" };
     if (category) where.category = { slug: category };
     if (status === "active") where.isActive = true;
     if (status === "inactive") where.isActive = false;
@@ -56,7 +56,6 @@ export async function POST(req: NextRequest) {
     const product = await db.product.create({
       data: {
         ...data,
-        tags: Array.isArray(data.tags) ? data.tags.join(",") : (data.tags || ""),
         images: images?.length
           ? { create: images.map((img, i) => ({ url: img.url, alt: img.alt, sortOrder: i })) }
           : undefined,

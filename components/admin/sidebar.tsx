@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -37,7 +36,7 @@ export function AdminSidebar() {
     <aside className="flex h-screen w-60 flex-col border-r border-gray-200 bg-white sticky top-0">
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 border-b border-gray-200 px-5">
-        <Image width={50} height={50} src="/logo.webp" alt="Pet-o-philia Logo" className="h-8 w-auto object-contain" />
+        <img src="/logo.webp" alt="Pet-o-philia Logo" className="h-8 w-auto object-contain" />
         <div>
           <p className="text-sm font-black text-gray-900 leading-none">Pet-o-philia</p>
           <p className="text-[10px] font-mono uppercase tracking-widest text-gray-400 mt-0.5">Admin</p>

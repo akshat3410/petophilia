@@ -47,7 +47,7 @@ export async function FeaturedGrid() {
         {/* Responsive Grid */}
         <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 scrollbar-hide md:grid md:grid-cols-4 md:overflow-visible md:pb-0">
           {products.map((p) => (
-            <div key={p.slug} className="w-[85vw] shrink-0 snap-center sm:w-[45vw] md:w-auto">
+            <div key={p.id} className="w-[85vw] shrink-0 snap-center sm:w-[45vw] md:w-auto">
               <ProductCardServer product={p} />
             </div>
           ))}
