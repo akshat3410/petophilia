@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -75,7 +76,7 @@ export function Header() {
         >
           {/* Logo */}
           <Link href="/" className="shrink-0 flex items-center gap-2">
-            <img src="/logo.webp" alt="Pet-o-philia Logo" className="h-8 lg:h-9 w-auto object-contain" />
+            <Image width={50} height={50} src="/logo.webp" alt="Pet-o-philia Logo" className="h-8 lg:h-9 w-auto object-contain" />
             <span className="block leading-none">
               <span className="block text-[18px] lg:text-[20px] font-black text-[#3A241A] tracking-tight font-display">
                 Pet-o-philia

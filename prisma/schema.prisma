@@ -6,7 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 
@@ -14,45 +15,17 @@ datasource db {
 // Enums
 // ─────────────────────────────────────────────────────────────────────────────
 
-enum Role {
-  CUSTOMER
-  ADMIN
-}
 
-enum OrderStatus {
-  PENDING
-  PAID
-  PACKED
-  SHIPPED
-  DELIVERED
-  CANCELLED
-  REFUNDED
-}
 
-enum PaymentStatus {
-  PENDING
-  PAID
-  FAILED
-  REFUNDED
-}
 
-enum CouponType {
-  PERCENTAGE
-  FIXED
-}
 
-enum SubscriptionStatus {
-  ACTIVE
-  PAUSED
-  CANCELLED
-}
 
-enum SubscriptionFrequency {
-  WEEKLY
-  BIWEEKLY
-  MONTHLY
-  BIMONTHLY
-}
+
+
+
+
+
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // User
@@ -66,7 +39,7 @@ model User {
   passwordHash  String?
   image         String?
   phone         String?
-  role          Role      @default(CUSTOMER)
+  role          String      @default("CUSTOMER")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -90,12 +63,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -199,7 +172,7 @@ model Product {
   id               String   @id @default(cuid())
   name             String
   slug             String   @unique
-  description      String?  @db.Text
+  description      String?
   shortDescription String?
   unit             String?  // e.g. "2.5kg pouch", "12 × 85g tins"
   price            Int      // stored in paise (INR × 100) → display ÷ 100
@@ -215,7 +188,7 @@ model Product {
   isNewArrival     Boolean  @default(false)
   ratingAverage    Float    @default(0)
   ratingCount      Int      @default(0)
-  tags             String[] @default([])
+  tags String @default("")
   tint             String?  // hex color for product card background
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
@@ -330,7 +303,7 @@ model Wishlist {
 model Coupon {
   id               String     @id @default(cuid())
   code             String     @unique
-  type             CouponType
+  type             String
   value            Int        // percentage (0-100) or fixed paise
   minOrderAmount   Int?       // paise
   maxDiscountAmount Int?      // paise (cap for percentage coupons)
@@ -355,8 +328,8 @@ model Order {
   id                String        @id @default(cuid())
   userId            String
   orderNumber       String        @unique
-  status            OrderStatus   @default(PENDING)
-  paymentStatus     PaymentStatus @default(PENDING)
+  status            String   @default("PENDING")
+  paymentStatus     String @default("PENDING")
   subtotal          Int           // paise
   discount          Int           @default(0) // paise
   shippingFee       Int           @default(0) // paise
@@ -412,7 +385,7 @@ model Payment {
   provider          String        @default("razorpay")
   providerOrderId   String?
   providerPaymentId String?
-  status            PaymentStatus @default(PENDING)
+  status            String @default("PENDING")
   amount            Int           // paise
   currency          String        @default("INR")
   createdAt         DateTime      @default(now())
@@ -432,7 +405,7 @@ model Review {
   userId    String
   productId String
   rating    Int      // 1-5
-  comment   String?  @db.Text
+  comment   String?
   isVisible Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -453,8 +426,8 @@ model Subscription {
   id               String                @id @default(cuid())
   userId           String
   productId        String
-  status           SubscriptionStatus    @default(ACTIVE)
-  frequency        SubscriptionFrequency @default(MONTHLY)
+  status           String    @default("ACTIVE")
+  frequency        String @default("MONTHLY")
   nextDeliveryDate DateTime?
   createdAt        DateTime              @default(now())
   updatedAt        DateTime              @updatedAt
