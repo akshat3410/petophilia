@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const COLUMNS = [
@@ -69,7 +70,7 @@ export function Footer() {
           <div>
             {/* Logo */}
             <div className="flex items-center gap-3 mb-6">
-              <img src="/logo.webp" alt="Pet-o-philia Logo" className="h-10 w-auto object-contain" />
+              <Image width={50} height={50} src="/logo.webp" alt="Pet-o-philia Logo" className="h-10 w-auto object-contain" />
               <div>
                 <p className="text-[22px] font-black leading-none font-display">Pet-o-philia</p>
                 <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#C98B5A]">

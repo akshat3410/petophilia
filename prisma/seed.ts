@@ -1,4 +1,4 @@
-import { Role, OrderStatus, PaymentStatus, CouponType } from "@prisma/client";
+
 import bcrypt from "bcryptjs";
 import { db } from "../lib/db";
 
@@ -89,7 +89,7 @@ async function main() {
       name: "Petophilia Admin",
       email: "admin@petophilia.in",
       passwordHash: adminHash,
-      role: Role.ADMIN,
+      role: "ADMIN",
     },
   });
 
@@ -100,7 +100,7 @@ async function main() {
       name: "June Mehta",
       email: "june@example.com",
       passwordHash: customerHash,
-      role: Role.CUSTOMER,
+      role: "CUSTOMER",
       phone: "+91-9876543210",
     },
   });
@@ -135,7 +135,7 @@ async function main() {
       categoryId: catDogs.id, brandId: meadowkind.id,
       isFeatured: true, isBestSeller: true,
       ratingAverage: 4.9, ratingCount: 1284,
-      tags: ["Grain-friendly", "Adult", "Sensitive tummy"], tint: "#E8DCD5",
+      tags: "Grain-friendly, Adult, Sensitive tummy", tint: "#E8DCD5",
     },
     {
       slug: "ocean-whitefish-pate",
@@ -147,7 +147,7 @@ async function main() {
       categoryId: catCats.id, brandId: kinderbowl.id,
       isFeatured: true, isBestSeller: true,
       ratingAverage: 4.8, ratingCount: 842,
-      tags: ["Hairball support", "All ages", "High protein"], tint: "#CFE3D8",
+      tags: "Hairball support, All ages, High protein", tint: "#CFE3D8",
     },
     {
       slug: "pumpkin-peanut-biscuits",
@@ -159,7 +159,7 @@ async function main() {
       categoryId: catTreats.id, brandId: pawpantry.id,
       isFeatured: true, isBestSeller: true, isNewArrival: false,
       ratingAverage: 4.9, ratingCount: 2104,
-      tags: ["Grain-free", "Training", "Under 5 cal"], tint: "#E8DCD5",
+      tags: "Grain-free, Training, Under 5 cal", tint: "#E8DCD5",
     },
     {
       slug: "calming-chamomile-chews",
@@ -171,7 +171,7 @@ async function main() {
       categoryId: catVet.id, brandId: furriva.id,
       isNewArrival: true,
       ratingAverage: 4.7, ratingCount: 592,
-      tags: ["Calming", "Travel", "Anxiety support"], tint: "#CFE3D8",
+      tags: "Calming, Travel, Anxiety support", tint: "#CFE3D8",
     },
     {
       slug: "hempwood-crinkle-lounger",
@@ -183,7 +183,7 @@ async function main() {
       categoryId: catAccessories.id, brandId: nestwell.id,
       isFeatured: true,
       ratingAverage: 4.8, ratingCount: 318,
-      tags: ["Recycled", "Machine washable"], tint: "#E8DCD5",
+      tags: "Recycled, Machine washable", tint: "#E8DCD5",
     },
     {
       slug: "river-salmon-sweet-potato",
@@ -195,7 +195,7 @@ async function main() {
       categoryId: catDogs.id, brandId: meadowkind.id,
       isBestSeller: true,
       ratingAverage: 4.9, ratingCount: 974,
-      tags: ["Grain-free", "Omega-rich", "Sensitive skin"], tint: "#CFE3D8",
+      tags: "Grain-free, Omega-rich, Sensitive skin", tint: "#CFE3D8",
     },
     {
       slug: "felt-mouse-trio",
@@ -207,7 +207,7 @@ async function main() {
       categoryId: catToys.id, brandId: pawpantry.id,
       isNewArrival: true,
       ratingAverage: 4.6, ratingCount: 441,
-      tags: ["Wool", "Catnip-filled", "Handmade"], tint: "#E8DCD5",
+      tags: "Wool, Catnip-filled, Handmade", tint: "#E8DCD5",
     },
     {
       slug: "dental-kelp-sticks",
@@ -219,7 +219,7 @@ async function main() {
       categoryId: catTreats.id, brandId: furriva.id,
       isBestSeller: true,
       ratingAverage: 4.8, ratingCount: 712,
-      tags: ["Dental", "Plaque support", "Daily"], tint: "#CFE3D8",
+      tags: "Dental, Plaque support, Daily", tint: "#CFE3D8",
     },
     {
       slug: "gentle-paw-balm",
@@ -231,7 +231,7 @@ async function main() {
       categoryId: catGrooming.id, brandId: furriva.id,
       isNewArrival: true,
       ratingAverage: 4.9, ratingCount: 388,
-      tags: ["Balm", "Winter", "Natural"], tint: "#E8DCD5",
+      tags: "Balm, Winter, Natural", tint: "#E8DCD5",
     },
     {
       slug: "linen-dream-cushion",
@@ -243,7 +243,7 @@ async function main() {
       categoryId: catAccessories.id, brandId: nestwell.id,
       isFeatured: true,
       ratingAverage: 4.9, ratingCount: 206,
-      tags: ["Orthopaedic", "Linen", "Removable cover"], tint: "#CFE3D8",
+      tags: "Orthopaedic, Linen, Removable cover", tint: "#CFE3D8",
     },
     {
       slug: "goat-milk-gelato",
@@ -255,7 +255,7 @@ async function main() {
       categoryId: catTreats.id, brandId: pawpantry.id,
       isNewArrival: true,
       ratingAverage: 4.7, ratingCount: 528,
-      tags: ["Frozen", "Summer", "Probiotic"], tint: "#E8DCD5",
+      tags: "Frozen, Summer, Probiotic", tint: "#E8DCD5",
     },
     {
       slug: "pheasant-quinoa-dinner",
@@ -267,7 +267,7 @@ async function main() {
       categoryId: catFood.id, brandId: kinderbowl.id,
       isBestSeller: true,
       ratingAverage: 4.8, ratingCount: 611,
-      tags: ["Single protein", "Novel protein", "Hypoallergenic"], tint: "#CFE3D8",
+      tags: "Single protein, Novel protein, Hypoallergenic", tint: "#CFE3D8",
     },
     {
       slug: "wild-venison-cold-pressed",
@@ -279,7 +279,7 @@ async function main() {
       categoryId: catFood.id, brandId: meadowkind.id,
       isFeatured: true, isNewArrival: true,
       ratingAverage: 4.7, ratingCount: 203,
-      tags: ["Cold-pressed", "Wild-caught", "Grain-free"], tint: "#E8DCD5",
+      tags: "Cold-pressed, Wild-caught, Grain-free", tint: "#E8DCD5",
     },
     {
       slug: "lavender-oat-shampoo",
@@ -291,7 +291,7 @@ async function main() {
       categoryId: catGrooming.id, brandId: furriva.id,
       isNewArrival: true,
       ratingAverage: 4.6, ratingCount: 187,
-      tags: ["Sensitive skin", "Soap-free", "Lavender"], tint: "#CFE3D8",
+      tags: "Sensitive skin, Soap-free, Lavender", tint: "#CFE3D8",
     },
     {
       slug: "tuna-catnip-medallions",
@@ -303,7 +303,7 @@ async function main() {
       categoryId: catTreats.id, brandId: pawpantry.id,
       isFeatured: false, isBestSeller: true,
       ratingAverage: 4.9, ratingCount: 763,
-      tags: ["Freeze-dried", "Single ingredient", "Cats"], tint: "#E8DCD5",
+      tags: "Freeze-dried, Single ingredient, Cats", tint: "#E8DCD5",
     },
     {
       slug: "bamboo-elevated-feeder",
@@ -315,7 +315,7 @@ async function main() {
       categoryId: catAccessories.id, brandId: nestwell.id,
       isNewArrival: true,
       ratingAverage: 4.5, ratingCount: 142,
-      tags: ["Bamboo", "Elevated", "Anti-bloat"], tint: "#CFE3D8",
+      tags: "Bamboo, Elevated, Anti-bloat", tint: "#CFE3D8",
     },
     {
       slug: "salmon-oil-pump",
@@ -327,7 +327,7 @@ async function main() {
       categoryId: catVet.id, brandId: furriva.id,
       isBestSeller: true,
       ratingAverage: 4.8, ratingCount: 934,
-      tags: ["Omega-3", "Coat care", "Joint support"], tint: "#E8DCD5",
+      tags: "Omega-3, Coat care, Joint support", tint: "#E8DCD5",
     },
     {
       slug: "snuffle-mat-forager",
@@ -339,7 +339,7 @@ async function main() {
       categoryId: catToys.id, brandId: nestwell.id,
       isFeatured: true,
       ratingAverage: 4.7, ratingCount: 289,
-      tags: ["Enrichment", "Slow feeder", "Machine washable"], tint: "#CFE3D8",
+      tags: "Enrichment, Slow feeder, Machine washable", tint: "#CFE3D8",
     },
     {
       slug: "grain-free-turkey-kibble",
@@ -351,7 +351,7 @@ async function main() {
       categoryId: catFood.id, brandId: kinderbowl.id,
       isBestSeller: true, isFeatured: true,
       ratingAverage: 4.8, ratingCount: 512,
-      tags: ["Grain-free", "Turkey", "Probiotic"], tint: "#E8DCD5",
+      tags: "Grain-free, Turkey, Probiotic", tint: "#E8DCD5",
     },
     {
       slug: "cat-teaser-wand-refills",
@@ -363,7 +363,7 @@ async function main() {
       categoryId: catToys.id, brandId: pawpantry.id,
       isNewArrival: true,
       ratingAverage: 4.6, ratingCount: 318,
-      tags: ["Interactive", "Feather", "Cat toy"], tint: "#CFE3D8",
+      tags: "Interactive, Feather, Cat toy", tint: "#CFE3D8",
     },
   ];
 
@@ -387,7 +387,7 @@ async function main() {
     update: {},
     create: {
       code: "WELCOME10",
-      type: CouponType.PERCENTAGE,
+      type: "PERCENTAGE",
       value: 10,
       minOrderAmount: 50000,
       maxDiscountAmount: 20000,
@@ -401,7 +401,7 @@ async function main() {
     update: {},
     create: {
       code: "FLAT200",
-      type: CouponType.FIXED,
+      type: "FIXED",
       value: 20000,
       minOrderAmount: 100000,
       isActive: true,
@@ -420,8 +420,8 @@ async function main() {
       {
         id: "order-seed-001",
         orderNumber: "PT-04281",
-        status: OrderStatus.SHIPPED,
-        paymentStatus: PaymentStatus.PAID,
+        status: "SHIPPED",
+        paymentStatus: "PAID",
         subtotal: p1.price + p2.price,
         total: p1.price + p2.price,
         items: [
@@ -433,8 +433,8 @@ async function main() {
       {
         id: "order-seed-002",
         orderNumber: "PT-04144",
-        status: OrderStatus.DELIVERED,
-        paymentStatus: PaymentStatus.PAID,
+        status: "DELIVERED",
+        paymentStatus: "PAID",
         subtotal: p4.price + p3.price,
         total: p4.price + p3.price,
         items: [
@@ -446,8 +446,8 @@ async function main() {
       {
         id: "order-seed-003",
         orderNumber: "PT-04029",
-        status: OrderStatus.DELIVERED,
-        paymentStatus: PaymentStatus.PAID,
+        status: "DELIVERED",
+        paymentStatus: "PAID",
         subtotal: p5.price,
         total: p5.price,
         items: [

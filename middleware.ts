@@ -1,11 +1,10 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
 const { auth } = NextAuth(authConfig);
 
-export default auth(function middleware(req) {
+export default auth((req) => {
   const { pathname } = req.nextUrl;
   const session = req.auth;
 
@@ -13,9 +12,11 @@ export default auth(function middleware(req) {
   if (pathname.startsWith("/admin")) {
     if (pathname === "/admin/login") return NextResponse.next();
 
-    if (!session) {
+    if (!session || !session.user) {
       return NextResponse.redirect(new URL("/admin/login", req.url));
     }
+    // We added the @ts-ignore because NextAuth types sometimes are tricky, but our session callback does inject role.
+    // @ts-ignore
     if (session.user.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", req.url));
     }
